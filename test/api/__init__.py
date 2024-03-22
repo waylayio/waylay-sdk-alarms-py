@@ -1,0 +1,1 @@
+"""Waylay Alarms tests."""

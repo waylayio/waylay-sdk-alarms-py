@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "CloudEvents Specification JSON Schema",
+  "definitions": {
+    "iddef": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifies the event."
+    },
+    "sourcedef": {
+      "type": "string",
+      "format": "uri-reference",
+      "minLength": 1,
+      "description": "Identifies the context in which an event happened.",
+      "examples": [
+        "https://github.com/cloudevents",
+        "mailto:cncf-wg-serverless@lists.cncf.io",
+        "urn:uuid:6e8bc430-9c3a-11d9-9669-0800200c9a66",
+        "cloudevents/spec/pull/123",
+        "/sensors/tn-1234567/alerts",
+        "1-555-123-4567"
+      ]
+    },
+    "specversiondef": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The version of the CloudEvents specification which the event uses.",
+      "examples": [
+        "1.0"
+      ]
+    },
+    "typedef": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Describes the type of event related to the originating occurrence."
+    },
+    "datacontenttypedef": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Content type of the data value. Must adhere to RFC 2046 format.",
+      "examples": [
+        "application/json",
+        "text/xml",
+        "image/png",
+        "multipart/form-data"
+      ]
+    },
+    "dataschemadef": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "description": "Identifies the schema that data adheres to."
+    },
+    "subjectdef": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Describes the subject of the event in the context of the event producer (identified by source)."
+    },
+    "timedef": {
+      "type": "string",
+      "format": "date-time",
+      "minLength": 1,
+      "description": "Timestamp of when the occurrence happened. Must adhere to RFC 3339.",
+      "examples": [
+        "2018-04-05T17:31:00Z"
+      ]
+    },
+    "data_base64def": {
+      "type": "string",
+      "contentEncoding": "base-64",
+      "description": "Base64 encoded event payload. Must adhere to RFC4648."
+    },
+    "json_data": {
+      "properties": {
+        "datacontenttype": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/datacontenttypedef"
+            },
+            {
+              "enum": [
+                "application/json"
+              ]
+            }
+          ]
+        },
+        "data": true
+      },
+      "required": [
+        "datacontenttype",
+        "data"
+      ]
+    },
+    "base64_data": {
+      "properties": {
+        "data_base64": {
+          "$ref": "#/definitions/data_base64def"
+        }
+      },
+      "required": [
+        "data_base64"
+      ]
+    },
+    "mandatory_properties": {
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/iddef"
+        },
+        "source": {
+          "$ref": "#/definitions/sourcedef"
+        },
+        "specversion": {
+          "$ref": "#/definitions/specversiondef"
+        },
+        "type": {
+          "$ref": "#/definitions/typedef"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "specversion",
+        "type"
+      ]
+    },
+    "optional_properties": {
+      "properties": {
+        "subject": {
+          "$ref": "#/definitions/subjectdef"
+        },
+        "time": {
+          "$ref": "#/definitions/timedef"
+        }
+      }
+    },
+    "cloudevent_json": {
+      "title": "Cloud Event",
+      "allOf": [
+        {
+          "$ref": "#/definitions/mandatory_properties"
+        },
+        {
+          "$ref": "#/definitions/optional_properties"
+        },
+        {
+          "$ref": "#/definitions/json_data"
+        }
+      ]
+    },
+    "cloudevent_binary": {
+      "title": "Cloud Event",
+      "allOf": [
+        {
+          "$ref": "#/definitions/mandatory_properties"
+        },
+        {
+          "$ref": "#/definitions/optional_properties"
+        },
+        {
+          "$ref": "#/definitions/base64_data"
+        }
+      ]
+    }
+  }
+}
+
