@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **attribute** | **str** |  | [optional] 
-**type** | **str** | Indication of what has changed | [optional] 
+**type** | [**AlarmEventChangesInnerType**](AlarmEventChangesInnerType.md) |  | [optional] 
 **old_value** | **str** |  | [optional] 
 **new_value** | **str** |  | [optional] 
 

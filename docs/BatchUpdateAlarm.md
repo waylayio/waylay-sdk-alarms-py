@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **entity** | [**BatchAlarmEntity**](BatchAlarmEntity.md) |  | 
-**action** | **str** |  | 
+**action** | [**BatchUpdateAlarmAllOfAction**](BatchUpdateAlarmAllOfAction.md) |  | 
 **query** | [**BulkQueryIds**](BulkQueryIds.md) |  | 
 **action_parameters** | [**AlarmUpdate**](AlarmUpdate.md) |  | 
 

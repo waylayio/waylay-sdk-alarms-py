@@ -7,7 +7,7 @@ Summary of the batch operation
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **entity** | [**BatchAlarmEntity**](BatchAlarmEntity.md) |  | 
-**action** | **str** |  | 
+**action** | [**BatchOperationOperationAction**](BatchOperationOperationAction.md) |  | 
 **description** | **str** | Description of the operation | 
 
 ## Example

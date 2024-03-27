@@ -84,7 +84,9 @@
             }
           ]
         },
-        "data": true
+        "data": {
+          "description": "The event payload."
+        }
       },
       "required": [
         "datacontenttype",

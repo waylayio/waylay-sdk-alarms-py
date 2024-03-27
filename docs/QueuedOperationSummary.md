@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **entity** | [**BatchAlarmEntity**](BatchAlarmEntity.md) |  | 
-**action** | **str** |  | 
+**action** | [**QueuedOperationSummaryAction**](QueuedOperationSummaryAction.md) |  | 
 
 ## Example
 

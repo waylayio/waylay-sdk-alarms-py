@@ -28,6 +28,8 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
+from waylay.services.alarms.models.get_eventstream_event_format_parameter import GetEventstreamEventFormatParameter
 from waylay.services.alarms.models.nd_json_response_stream import NdJsonResponseStream
 try:
     # Alarm Events
@@ -53,7 +55,7 @@ GET /alarms/v1/events
 Name     | Type  | API binding   | Description   | Notes
 -------- | ----- | ------------- | ------------- | -------------
 **query** | [QueryParamTypes](Operation.md#req_arg_query) \| **None** | URL query parameter |  | 
-**query['eventFormat']** (dict) <br> **query.event_format** (Query) | **str** | query parameter `"eventFormat"` | The format of events in the stream.   If specified this must be &#x60;application/cloudevents+json&#x60; (make sure to correctly URL encode the &#x60;+&#x60; as &#x60;%2B&#x60;) | [optional] 
+**query['eventFormat']** (dict) <br> **query.event_format** (Query) | [**GetEventstreamEventFormatParameter**](.md) | query parameter `"eventFormat"` | The format of events in the stream.   If specified this must be &#x60;application/cloudevents+json&#x60; (make sure to correctly URL encode the &#x60;+&#x60; as &#x60;%2B&#x60;) | [optional] 
 **headers** | [HeaderTypes](Operation.md#req_headers) | request headers |  | 
 
 ### Return type

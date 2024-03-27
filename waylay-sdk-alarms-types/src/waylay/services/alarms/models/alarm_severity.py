@@ -10,15 +10,8 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations
-import json
-import pprint
-import re  # noqa: F401
+
 from enum import Enum
-
-
-from typing_extensions import (
-    Self,  # >=3.11
-)
 
 
 class AlarmSeverity(str, Enum):

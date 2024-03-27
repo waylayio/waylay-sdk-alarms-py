@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **id** | **object** |  | [optional] 
 **source** | **object** |  | [optional] 
 **subject** | **str** |  | 
-**type** | **str** |  | [optional] 
+**type** | [**CloudAlarmEventDataType**](CloudAlarmEventDataType.md) |  | [optional] 
 **data** | [**AlarmEvent**](AlarmEvent.md) |  | [optional] 
 **time** | **datetime** |  | 
 

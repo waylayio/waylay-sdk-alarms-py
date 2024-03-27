@@ -10,30 +10,17 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations
-from inspect import getfullargspec
-import json
-import pprint
-import re  # noqa: F401
-
-from typing import Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
-from ..models.batch_operation import BatchOperation
-from ..models.batch_operation_result import BatchOperationResult
 
 from typing import (
     Union,
-    Any,
-    List,
-    TYPE_CHECKING,
-    Optional,
-    Dict,
-    Literal,  # >=3.8
 )
+
 from typing_extensions import (
     Annotated,  # >=3.9
 )
 
-from pydantic import StrictStr, Field, ConfigDict
+from ..models.batch_operation import BatchOperation
+from ..models.batch_operation_result import BatchOperationResult
 
 BatchOperationResults = Union[
     Annotated[BatchOperationResult, ""], Annotated[BatchOperation, ""]
