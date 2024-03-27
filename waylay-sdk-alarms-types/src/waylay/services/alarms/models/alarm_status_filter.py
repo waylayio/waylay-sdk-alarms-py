@@ -10,29 +10,17 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations
-from inspect import getfullargspec
-import json
-import pprint
-import re  # noqa: F401
+
 from typing import (
-    Union,
-    Any,
     List,
-    TYPE_CHECKING,
-    Optional,
-    Dict,
-    Literal,  # >=3.8
+    Union,
 )
+
 from typing_extensions import (
     Annotated,  # >=3.9
 )
-from pydantic import StrictStr, Field, ConfigDict
 
-
-from typing import Any, List, Optional
-from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
 from ..models.alarm_status import AlarmStatus
-
 
 AlarmStatusFilter = Union[Annotated[AlarmStatus, ""], Annotated[List[AlarmStatus], ""]]
 """AlarmStatusFilter."""

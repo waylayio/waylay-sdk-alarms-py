@@ -1315,22 +1315,19 @@
             "enum": [
               "io.waylay.alarm.AlarmRaised"
             ],
-            "description": "A new alarm was created.",
-            "title": "Alarm Creation Event Type"
+            "description": "A new alarm was created."
           },
           {
             "enum": [
               "io.waylay.alarm.EventOccuredAgain"
             ],
-            "description": "An alarm happened again.",
-            "title": "Alarm Event Happened Again Event type"
+            "description": "An alarm happened again."
           },
           {
             "enum": [
               "io.waylay.alarm.AlarmUpdated"
             ],
-            "description": "An alarm was updated.",
-            "title": "Alarm Update Event Type"
+            "description": "An alarm was updated."
           }
         ]
       },
@@ -1444,6 +1441,7 @@
             "example": "/alarms/v1/alarms"
           },
           "subject": {
+            "type": "string",
             "example": "289dd1a3-35a7-44fa-8596-9aee3ad0b36f/2c49e3bf-547b-42bc-a5e9-9193155ec03d"
           },
           "type": {
@@ -1475,7 +1473,12 @@
               "time"
             ]
           }
-        ]
+        ],
+        "example": {
+          "time": "2011-09-06T12:03:27.845Z",
+          "type": "io.waylay.alarms.v1.AlarmUpdated",
+          "subject": "289dd1a3-35a7-44fa-8596-9aee3ad0b36f/2c49e3bf-547b-42bc-a5e9-9193155ec03d"
+        }
       },
       "BatchId": {
         "type": "string",
@@ -1766,7 +1769,12 @@
                 {
                   "$ref": "#/components/schemas/CloudAlarmEvent"
                 }
-              ]
+              ],
+              "example": {
+                "time": "2011-09-06T12:03:27.845Z",
+                "type": "io.waylay.alarms.v1.AlarmUpdated",
+                "subject": "289dd1a3-35a7-44fa-8596-9aee3ad0b36f/2c49e3bf-547b-42bc-a5e9-9193155ec03d"
+              }
             }
           },
           "text/event-stream": {

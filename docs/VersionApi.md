@@ -27,6 +27,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
 from waylay.services.alarms.models.version_response import VersionResponse
 try:
     # Version

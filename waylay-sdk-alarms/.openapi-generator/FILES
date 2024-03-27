@@ -1,3 +1,5 @@
+LICENSE.txt
+README.md
 pyproject.toml
 src/waylay/services/alarms/api/__init__.py
 src/waylay/services/alarms/api/alarm_events_api.py

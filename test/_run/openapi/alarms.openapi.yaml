@@ -922,6 +922,7 @@ components:
         source:
           example: /alarms/v1/alarms
         subject:
+          type: string
           example: 289dd1a3-35a7-44fa-8596-9aee3ad0b36f/2c49e3bf-547b-42bc-a5e9-9193155ec03d
         type:
           enum:
@@ -939,6 +940,10 @@ components:
       - required:
         - subject
         - time
+      example: &id002
+        time: '2011-09-06T12:03:27.845Z'
+        type: io.waylay.alarms.v1.AlarmUpdated
+        subject: 289dd1a3-35a7-44fa-8596-9aee3ad0b36f/2c49e3bf-547b-42bc-a5e9-9193155ec03d
     BatchId:
       title: Batch Operation id
       type: string
@@ -1136,6 +1141,7 @@ components:
             oneOf:
             - $ref: '#/components/schemas/AlarmEvent'
             - $ref: '#/components/schemas/CloudAlarmEvent'
+            example: *id002
         text/event-stream:
           schema:
             title: SSEventStream

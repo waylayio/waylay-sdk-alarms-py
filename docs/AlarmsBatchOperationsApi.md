@@ -29,6 +29,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
 from waylay.services.alarms.models.batch_operation_results import BatchOperationResults
 try:
     # Get Alarms Batch Operation Status
@@ -96,6 +97,7 @@ from waylay.sdk.api.api_exceptions import ApiError
 # Intialize a waylay client instance
 waylay_client = WaylayClient.from_profile()
 
+# Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
 from waylay.services.alarms.models.a_batch_alarms_specification import ABatchAlarmsSpecification
 from waylay.services.alarms.models.batch_operation_enqueued import BatchOperationEnqueued
 try:

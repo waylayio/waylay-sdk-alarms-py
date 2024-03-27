@@ -9,67 +9,36 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations  # for Python 3.7–3.9
-import io
-import warnings
 
-import enum
-from enum import Enum
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    Literal,
+    TypeVar,
+    overload,
+)
+
 from pydantic import (
-    validate_call,
-    Field,
-    StrictFloat,
-    StrictStr,
-    StrictInt,
     StrictBool,
-    StrictBytes,
-    ConfigDict,
     TypeAdapter,
 )
-from typing import (
-    Dict,
-    List,
-    Literal,
-    Optional,
-    Tuple,
-    Union,
-    Any,
-    overload,
-    TYPE_CHECKING,
-    Type,
-    TypeVar,
-)
-from typing_extensions import (
-    Annotated,  # >=3.9,
-    NotRequired,  # >=3.11
-)
-
-from waylay.sdk.plugin import WithApiClient
 from waylay.sdk.api import (
-    ApiValueError,
-    Request,
-    Response,
     HeaderTypes,
     QueryParamTypes,
-    RequestFiles,
-    RequestData,
-    RequestContent,
+    Response,
 )
 from waylay.sdk.api._models import Model
+from waylay.sdk.plugin import WithApiClient
 
 if TYPE_CHECKING:
+    from waylay.services.alarms.models import NdJsonResponseStream
     from waylay.services.alarms.queries.alarm_events_api import GetQuery
-
-    from waylay.services.alarms.models import NdJsonResponseStream
-
-    from waylay.services.alarms.models import NdJsonResponseStream
 
 
 try:
+    from waylay.services.alarms.models import NdJsonResponseStream
     from waylay.services.alarms.queries.alarm_events_api import GetQuery
-
-    from waylay.services.alarms.models import NdJsonResponseStream
-
-    from waylay.services.alarms.models import NdJsonResponseStream
 
     MODELS_AVAILABLE = True
 except ImportError:
@@ -77,11 +46,8 @@ except ImportError:
 
     if not TYPE_CHECKING:
         GetQuery = dict
-
         NdJsonResponseStream = Model
 
-
-from waylay.sdk.api import ApiClient, RESTTimeout
 
 T = TypeVar("T")
 
@@ -171,7 +137,7 @@ class AlarmEventsApi(WithApiClient):
         :param query: URL Query parameters.
         :type query: GetQuery | QueryParamTypes, optional
         :param query['eventFormat'] (dict) <br> query.event_format (Query) : The format of events in the stream.   If specified this must be `application/cloudevents+json` (make sure to correctly URL encode the `+` as `%2B`)
-        :type query['eventFormat']: str
+        :type query['eventFormat']: GetEventstreamEventFormatParameter
         :param raw_response: If true, return the http Response object instead of returning an api model object, or throwing an ApiError.
         :param select_path: Denotes the json path applied to the response object before returning it.
                 Set it to the empty string `""` to receive the full response object.
@@ -227,7 +193,7 @@ class AlarmEventsApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )

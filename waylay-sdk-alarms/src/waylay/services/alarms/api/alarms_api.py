@@ -9,143 +9,67 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations  # for Python 3.7–3.9
-import io
-import warnings
 
-import enum
-from enum import Enum
-from pydantic import (
-    validate_call,
-    Field,
-    StrictFloat,
-    StrictStr,
-    StrictInt,
-    StrictBool,
-    StrictBytes,
-    ConfigDict,
-    TypeAdapter,
-)
 from typing import (
-    Dict,
-    List,
-    Literal,
-    Optional,
-    Tuple,
-    Union,
-    Any,
-    overload,
     TYPE_CHECKING,
-    Type,
+    Any,
+    Dict,
+    Literal,
     TypeVar,
+    overload,
+)
+
+from pydantic import (
+    Field,
+    StrictBool,
+    StrictStr,
+    TypeAdapter,
 )
 from typing_extensions import (
     Annotated,  # >=3.9,
-    NotRequired,  # >=3.11
 )
-
-from waylay.sdk.plugin import WithApiClient
 from waylay.sdk.api import (
-    ApiValueError,
-    Request,
-    Response,
     HeaderTypes,
     QueryParamTypes,
-    RequestFiles,
-    RequestData,
-    RequestContent,
+    Response,
 )
 from waylay.sdk.api._models import Model
+from waylay.sdk.plugin import WithApiClient
 
 if TYPE_CHECKING:
-    from waylay.services.alarms.models import CreateAlarm
-
-    from waylay.services.alarms.queries.alarms_api import CreateQuery
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import ErrorResponseWithDetails
-
-    from waylay.services.alarms.queries.alarms_api import DeleteQuery
-
-    from waylay.services.alarms.models import ErrorResponse
-
-    from waylay.services.alarms.queries.alarms_api import GetQuery
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import ErrorResponse
-
-    from waylay.services.alarms.queries.alarms_api import ListQuery
-
-    from waylay.services.alarms.models import AlarmsQueryResult
-
-    from waylay.services.alarms.models import AlarmsQueryResult
-
-    from waylay.services.alarms.models import ErrorResponse
-
-    from waylay.services.alarms.models import AlarmUpdate
-
-    from waylay.services.alarms.queries.alarms_api import UpdateQuery
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import ErrorResponseWithDetails
-
-    from waylay.services.alarms.models import ErrorResponse
-
-    from waylay.services.alarms.models import ErrorResponse
+    from waylay.services.alarms.models import (
+        AlarmEntity,
+        AlarmsQueryResult,
+        AlarmUpdate,
+        CreateAlarm,
+        ErrorResponse,
+        ErrorResponseWithDetails,
+    )
+    from waylay.services.alarms.queries.alarms_api import (
+        CreateQuery,
+        DeleteQuery,
+        GetQuery,
+        ListQuery,
+        UpdateQuery,
+    )
 
 
 try:
-    from waylay.services.alarms.models import CreateAlarm
-
-    from waylay.services.alarms.queries.alarms_api import CreateQuery
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import ErrorResponseWithDetails
-
-    from waylay.services.alarms.queries.alarms_api import DeleteQuery
-
-    from waylay.services.alarms.models import ErrorResponse
-
-    from waylay.services.alarms.queries.alarms_api import GetQuery
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import ErrorResponse
-
-    from waylay.services.alarms.queries.alarms_api import ListQuery
-
-    from waylay.services.alarms.models import AlarmsQueryResult
-
-    from waylay.services.alarms.models import AlarmsQueryResult
-
-    from waylay.services.alarms.models import ErrorResponse
-
-    from waylay.services.alarms.models import AlarmUpdate
-
-    from waylay.services.alarms.queries.alarms_api import UpdateQuery
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import AlarmEntity
-
-    from waylay.services.alarms.models import ErrorResponseWithDetails
-
-    from waylay.services.alarms.models import ErrorResponse
-
-    from waylay.services.alarms.models import ErrorResponse
+    from waylay.services.alarms.models import (
+        AlarmEntity,
+        AlarmsQueryResult,
+        AlarmUpdate,
+        CreateAlarm,
+        ErrorResponse,
+        ErrorResponseWithDetails,
+    )
+    from waylay.services.alarms.queries.alarms_api import (
+        CreateQuery,
+        DeleteQuery,
+        GetQuery,
+        ListQuery,
+        UpdateQuery,
+    )
 
     MODELS_AVAILABLE = True
 except ImportError:
@@ -155,7 +79,6 @@ except ImportError:
         CreateAlarm = Model
 
         CreateQuery = dict
-
         AlarmEntity = Model
 
         ErrorResponseWithDetails = Model
@@ -165,13 +88,11 @@ except ImportError:
         ErrorResponse = Model
 
         GetQuery = dict
-
         AlarmEntity = Model
 
         ErrorResponse = Model
 
         ListQuery = dict
-
         AlarmsQueryResult = Model
 
         ErrorResponse = Model
@@ -179,7 +100,6 @@ except ImportError:
         AlarmUpdate = Model
 
         UpdateQuery = dict
-
         AlarmEntity = Model
 
         ErrorResponseWithDetails = Model
@@ -188,8 +108,6 @@ except ImportError:
 
         ErrorResponse = Model
 
-
-from waylay.sdk.api import ApiClient, RESTTimeout
 
 T = TypeVar("T")
 
@@ -335,7 +253,7 @@ class AlarmsApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -482,7 +400,7 @@ class AlarmsApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -629,7 +547,7 @@ class AlarmsApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -738,9 +656,9 @@ class AlarmsApi(WithApiClient):
         :param query['lastTriggeredTo'] (dict) <br> query.last_triggered_to (Query) : Filter on alarm lastTriggeredTime (equal or below).
         :type query['lastTriggeredTo']: int
         :param query['sort'] (dict) <br> query.sort (Query) : (Pagination) field used to sort the alarms  Ignored in combination with `Accept: application/vnd.waylay.alarms.timeseries+json`
-        :type query['sort']: str
+        :type query['sort']: ListSortParameter
         :param query['order'] (dict) <br> query.order (Query) : (Pagination) sort order  Ignored in combination with `Accept: application/vnd.waylay.alarms.timeseries+json`
-        :type query['order']: str
+        :type query['order']: ListOrderParameter
         :param query['page'] (dict) <br> query.page (Query) : (Pagination) page Number   Ignored in combination with `Accept: application/vnd.waylay.alarms.timeseries+json`
         :type query['page']: int
         :param query['size'] (dict) <br> query.size (Query) : (Pagination) size of a page  Ignored in combination with `Accept: application/vnd.waylay.alarms.timeseries+json`
@@ -804,7 +722,7 @@ class AlarmsApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )
@@ -965,7 +883,7 @@ class AlarmsApi(WithApiClient):
             **body_args,
             headers=headers,
             **kwargs,
-            response_types_map=response_types_map,
+            response_type=response_types_map,
             select_path=select_path,
             raw_response=raw_response,
         )

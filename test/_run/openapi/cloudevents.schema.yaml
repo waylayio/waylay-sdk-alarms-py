@@ -64,7 +64,8 @@ definitions:
         - $ref: '#/definitions/datacontenttypedef'
         - enum:
           - application/json
-      data: true
+      data:
+        description: The event payload.
     required:
     - datacontenttype
     - data

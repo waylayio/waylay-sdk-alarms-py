@@ -10,37 +10,14 @@ Do not edit the class manually.
 """
 
 from __future__ import annotations
-from inspect import getfullargspec
-import json
-import pprint
-import re  # noqa: F401
-
-from typing import Optional, Union
-from pydantic import (
-    BaseModel,
-    Field,
-    StrictBool,
-    StrictFloat,
-    StrictInt,
-    StrictStr,
-    ValidationError,
-    field_validator,
-)
 
 from typing import (
     Union,
-    Any,
-    List,
-    TYPE_CHECKING,
-    Optional,
-    Dict,
-    Literal,  # >=3.8
 )
+
 from typing_extensions import (
     Annotated,  # >=3.9
 )
-
-from pydantic import StrictStr, Field, ConfigDict
 
 ListAdditionalQueryParamsParameterValue = Union[
     Annotated[float, ""], Annotated[str, ""], Annotated[bool, ""]
