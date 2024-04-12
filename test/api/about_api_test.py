@@ -18,7 +18,7 @@ from pytest_httpx import HTTPXMock
 from typeguard import check_type
 from waylay.sdk import ApiClient, WaylayClient
 from waylay.sdk.api._models import Model
-from waylay.services.alarms.api import VersionApi
+from waylay.services.alarms.api import AboutApi
 from waylay.services.alarms.service import AlarmsService
 
 from ..types.version_response_stub import VersionResponseStub
@@ -36,13 +36,13 @@ null, true, false = None, True, False
 
 
 @pytest.fixture
-def version_api(waylay_api_client: ApiClient) -> VersionApi:
-    return VersionApi(waylay_api_client)
+def about_api(waylay_api_client: ApiClient) -> AboutApi:
+    return AboutApi(waylay_api_client)
 
 
 def test_registered(waylay_client: WaylayClient):
-    """Test that VersionApi api is registered in the sdk client."""
-    assert isinstance(waylay_client.alarms.version, VersionApi)
+    """Test that AboutApi api is registered in the sdk client."""
+    assert isinstance(waylay_client.alarms.about, AboutApi)
 
 
 def _get_set_mock_response(httpx_mock: HTTPXMock, gateway_url: str):
@@ -60,12 +60,12 @@ def _get_set_mock_response(httpx_mock: HTTPXMock, gateway_url: str):
 @pytest.mark.skipif(not MODELS_AVAILABLE, reason="Types not installed.")
 async def test_get(service: AlarmsService, gateway_url: str, httpx_mock: HTTPXMock):
     """Test case for get
-    Version
+    Get Service Information
     """
     # set path params
     kwargs = {}
     _get_set_mock_response(httpx_mock, gateway_url)
-    resp = await service.version.get(**kwargs)
+    resp = await service.about.get(**kwargs)
     check_type(resp, Union[VersionResponse,])
 
 
@@ -75,10 +75,10 @@ async def test_get_without_types(
     service: AlarmsService, gateway_url: str, httpx_mock: HTTPXMock
 ):
     """Test case for get with models not installed
-    Version
+    Get Service Information
     """
     # set path params
     kwargs = {}
     _get_set_mock_response(httpx_mock, gateway_url)
-    resp = await service.version.get(**kwargs)
+    resp = await service.about.get(**kwargs)
     check_type(resp, Model)

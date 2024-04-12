@@ -1,5 +1,4 @@
 LICENSE.txt
-README.md
 pyproject.toml
 src/waylay/services/alarms/models/__init__.py
 src/waylay/services/alarms/models/a_batch_alarms_specification.py
@@ -63,8 +62,8 @@ src/waylay/services/alarms/models/ss_event_stream.py
 src/waylay/services/alarms/models/success_operation_result_value.py
 src/waylay/services/alarms/models/version_response.py
 src/waylay/services/alarms/queries/__init__.py
+src/waylay/services/alarms/queries/about_api.py
 src/waylay/services/alarms/queries/alarm_events_api.py
 src/waylay/services/alarms/queries/alarms_api.py
 src/waylay/services/alarms/queries/alarms_batch_operations_api.py
 src/waylay/services/alarms/queries/py.typed
-src/waylay/services/alarms/queries/version_api.py

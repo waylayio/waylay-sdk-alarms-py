@@ -10,7 +10,7 @@ tags:
 - name: Alarms
 - name: Alarm Events
 - name: Alarms Batch Operations
-- name: Version
+- name: About
 paths:
   /alarms/v1/alarms:
     post:
@@ -363,10 +363,10 @@ paths:
   /alarms/v1:
     get:
       tags:
-      - Version
-      operationId: get_version
-      summary: Version
-      description: Get the status and version of the service.
+      - About
+      operationId: get_about
+      summary: Get Service Information
+      description: Get the name and version of the service.
       responses:
         '200':
           $ref: '#/components/responses/VersionResponse'

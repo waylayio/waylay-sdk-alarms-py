@@ -10,7 +10,7 @@ Method | HTTP request | Description
 > get(
 > query: GetQuery,
 > headers
-> ) -> NdJsonResponseStream
+> ) -> AsyncIterator[NdJsonResponseStream]
 
 Alarm Events
 
@@ -21,7 +21,7 @@ Opens a data stream for all Alarm Events for this tenant.
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
@@ -62,7 +62,7 @@ Name     | Type  | API binding   | Description   | Notes
 
 Selected path param | Raw response param | Return Type  | Description | Links
 ------------------- | ------------------ | ------------ | ----------- | -----
-Literal[""] _(default)_  | False _(default)_ | **`NdJsonResponseStream`** |  | [NdJsonResponseStream](NdJsonResponseStream.md)
+Literal[""] _(default)_  | False _(default)_ | **`AsyncIterator[NdJsonResponseStream]`** |  | [NdJsonResponseStream](NdJsonResponseStream.md)
 str | False _(default)_ | **`Any`** | If any other string value for the selected path is provided, the exact type of the response will only be known at runtime. | 
 / | True | `Response` | The raw http response object.
 
