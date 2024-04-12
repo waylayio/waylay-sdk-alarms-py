@@ -4,6 +4,7 @@ LICENSE.txt
 Makefile
 README.md
 docs/ABatchAlarmsSpecification.md
+docs/AboutApi.md
 docs/AlarmAuditRecord.md
 docs/AlarmEntity.md
 docs/AlarmEvent.md
@@ -64,16 +65,15 @@ docs/QueuedOperationSummaryAction.md
 docs/SO8601TimestampOrMillis.md
 docs/SSEventStream.md
 docs/SuccessOperationResultValue.md
-docs/VersionApi.md
 docs/VersionResponse.md
 pyproject.toml
 requirements.txt
 test/__init__.py
 test/api/__init__.py
+test/api/about_api_test.py
 test/api/alarm_events_api_test.py
 test/api/alarms_api_test.py
 test/api/alarms_batch_operations_api_test.py
-test/api/version_api_test.py
 test/conftest.py
 test/openapi.py
 test/types/__init__.py
@@ -135,3 +135,5 @@ test/types/so8601_timestamp_or_millis_stub.py
 test/types/ss_event_stream_stub.py
 test/types/success_operation_result_value_stub.py
 test/types/version_response_stub.py
+waylay-sdk-alarms-types/README.md
+waylay-sdk-alarms/README.md

@@ -24,7 +24,7 @@ Create an alarm.  If an `ACTIVE` or `ACKNOWLEDGED` alarm with the same `source.i
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
@@ -92,7 +92,7 @@ Delete an Alarm.
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
@@ -158,7 +158,7 @@ Get an alarm.
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
@@ -227,7 +227,7 @@ Query multiple alarms using a query language. The response contains the total nu
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 
@@ -337,7 +337,7 @@ Update an alarm.
 ```python
 from pprint import pprint
 
-# Import the waylay-client from the waylay-sdk package
+# Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
 

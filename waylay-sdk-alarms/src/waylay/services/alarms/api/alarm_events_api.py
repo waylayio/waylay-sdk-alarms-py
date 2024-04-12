@@ -13,6 +13,7 @@ from __future__ import annotations  # for Python 3.7–3.9
 from typing import (
     TYPE_CHECKING,
     Any,
+    AsyncIterator,
     Dict,
     Literal,
     TypeVar,
@@ -29,6 +30,7 @@ from waylay.sdk.api import (
     Response,
 )
 from waylay.sdk.api._models import Model
+from waylay.sdk.api.constants import STREAM_TIMEOUTS
 from waylay.sdk.plugin import WithApiClient
 
 if TYPE_CHECKING:
@@ -70,8 +72,10 @@ class AlarmEventsApi(WithApiClient):
         select_path: Literal[""] = "",
         response_type: Literal[None] = None,
         headers: HeaderTypes | None = None,
+        stream: bool = True,
+        timeout=STREAM_TIMEOUTS,
         **kwargs,
-    ) -> NdJsonResponseStream: ...
+    ) -> AsyncIterator[NdJsonResponseStream]: ...
 
     @overload
     async def get(
@@ -82,8 +86,10 @@ class AlarmEventsApi(WithApiClient):
         select_path: Literal[""] = "",
         response_type: T,
         headers: HeaderTypes | None = None,
+        stream: bool = True,
+        timeout=STREAM_TIMEOUTS,
         **kwargs,
-    ) -> T: ...
+    ) -> AsyncIterator[T]: ...
 
     @overload
     async def get(
@@ -94,6 +100,8 @@ class AlarmEventsApi(WithApiClient):
         select_path: Literal["_not_used_"] = "_not_used_",
         response_type: Literal[None] = None,  # not used
         headers: HeaderTypes | None = None,
+        stream: bool = True,
+        timeout=STREAM_TIMEOUTS,
         **kwargs,
     ) -> Response: ...
 
@@ -106,8 +114,10 @@ class AlarmEventsApi(WithApiClient):
         select_path: str,
         response_type: Literal[None] = None,
         headers: HeaderTypes | None = None,
+        stream: bool = True,
+        timeout=STREAM_TIMEOUTS,
         **kwargs,
-    ) -> Model: ...
+    ) -> AsyncIterator[Model]: ...
 
     @overload
     async def get(
@@ -118,8 +128,10 @@ class AlarmEventsApi(WithApiClient):
         select_path: str,
         response_type: T,
         headers: HeaderTypes | None = None,
+        stream: bool = True,
+        timeout=STREAM_TIMEOUTS,
         **kwargs,
-    ) -> T: ...
+    ) -> AsyncIterator[T]: ...
 
     async def get(
         self,
@@ -129,8 +141,15 @@ class AlarmEventsApi(WithApiClient):
         select_path: str = "",
         response_type: T | None = None,
         headers: HeaderTypes | None = None,
+        stream: bool = True,
+        timeout=STREAM_TIMEOUTS,
         **kwargs,
-    ) -> NdJsonResponseStream | T | Response | Model:
+    ) -> (
+        AsyncIterator[NdJsonResponseStream]
+        | AsyncIterator[T]
+        | Response
+        | AsyncIterator[Model]
+    ):
         """Alarm Events.
 
         Opens a data stream for all Alarm Events for this tenant.
@@ -192,6 +211,8 @@ class AlarmEventsApi(WithApiClient):
             params=query,
             **body_args,
             headers=headers,
+            stream=stream,
+            timeout=timeout,
             **kwargs,
             response_type=response_types_map,
             select_path=select_path,
