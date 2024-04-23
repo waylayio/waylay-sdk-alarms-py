@@ -24,7 +24,6 @@ class GetQuery(WaylayBaseModel):
     """Model for `get` query parameters."""
 
     model_config = ConfigDict(
-        validate_assignment=True,
         protected_namespaces=(),
         extra="allow",
         alias_generator=_get_query_alias_for,
@@ -40,7 +39,6 @@ class StartQuery(WaylayBaseModel):
     """Model for `start` query parameters."""
 
     model_config = ConfigDict(
-        validate_assignment=True,
         protected_namespaces=(),
         extra="allow",
         alias_generator=_start_query_alias_for,

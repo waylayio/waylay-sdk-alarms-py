@@ -40,7 +40,6 @@ class CreateQuery(WaylayBaseModel):
     """Model for `create` query parameters."""
 
     model_config = ConfigDict(
-        validate_assignment=True,
         protected_namespaces=(),
         extra="allow",
         alias_generator=_create_query_alias_for,
@@ -56,7 +55,6 @@ class DeleteQuery(WaylayBaseModel):
     """Model for `delete` query parameters."""
 
     model_config = ConfigDict(
-        validate_assignment=True,
         protected_namespaces=(),
         extra="allow",
         alias_generator=_delete_query_alias_for,
@@ -72,7 +70,6 @@ class GetQuery(WaylayBaseModel):
     """Model for `get` query parameters."""
 
     model_config = ConfigDict(
-        validate_assignment=True,
         protected_namespaces=(),
         extra="allow",
         alias_generator=_get_query_alias_for,
@@ -218,7 +215,6 @@ class ListQuery(WaylayBaseModel):
     ] = None
 
     model_config = ConfigDict(
-        validate_assignment=True,
         protected_namespaces=(),
         extra="allow",
         alias_generator=_list_query_alias_for,
@@ -234,7 +230,6 @@ class UpdateQuery(WaylayBaseModel):
     """Model for `update` query parameters."""
 
     model_config = ConfigDict(
-        validate_assignment=True,
         protected_namespaces=(),
         extra="allow",
         alias_generator=_update_query_alias_for,

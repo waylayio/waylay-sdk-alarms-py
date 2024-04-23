@@ -52,11 +52,20 @@ class VersionResponseStub:
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return version_response_faker.generate()
+        return version_response_faker.generate(use_defaults=True, use_examples=True)
 
     @classmethod
     def create_instance(cls) -> "VersionResponse":
         """Create VersionResponse stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
-        return VersionResponseAdapter.validate_python(cls.create_json())
+        json = cls.create_json()
+        if not json:
+            # use backup example based on the pydantic model schema
+            backup_faker = JSF(
+                VersionResponseAdapter.json_schema(), allow_none_optionals=1
+            )
+            json = backup_faker.generate(use_defaults=True, use_examples=True)
+        return VersionResponseAdapter.validate_python(
+            json, context={"skip_validation": True}
+        )

@@ -25,6 +25,7 @@ from waylay.services.alarms.service import AlarmsService
 from ..types.alarm_entity_stub import AlarmEntityStub
 from ..types.alarm_update_stub import AlarmUpdateStub
 from ..types.alarms_query_result_stub import AlarmsQueryResultStub
+from ..types.create_alarm_stub import CreateAlarmStub
 
 MODELS_AVAILABLE = (
     True if find_spec("waylay.services.alarms.models") is not None else False
@@ -70,7 +71,9 @@ async def test_create(service: AlarmsService, gateway_url: str, httpx_mock: HTTP
     Create Alarm
     """
     # set path params
-    kwargs = {}
+    kwargs = {
+        "json": CreateAlarmStub.create_instance(),
+    }
     _create_set_mock_response(httpx_mock, gateway_url)
     resp = await service.alarms.create(**kwargs)
     check_type(resp, Union[AlarmEntity,])
@@ -85,7 +88,9 @@ async def test_create_without_types(
     Create Alarm
     """
     # set path params
-    kwargs = {}
+    kwargs = {
+        "json": CreateAlarmStub.create_json(),
+    }
     _create_set_mock_response(httpx_mock, gateway_url)
     resp = await service.alarms.create(**kwargs)
     check_type(resp, Model)

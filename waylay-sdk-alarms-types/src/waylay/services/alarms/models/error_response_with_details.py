@@ -33,8 +33,5 @@ class ErrorResponseWithDetails(WaylayBaseModel):
     details: Annotated[List[StrictStr], Field(min_length=1)] | None = None
 
     model_config = ConfigDict(
-        populate_by_name=True,
-        validate_assignment=True,
-        protected_namespaces=(),
-        extra="ignore",
+        populate_by_name=True, protected_namespaces=(), extra="ignore"
     )

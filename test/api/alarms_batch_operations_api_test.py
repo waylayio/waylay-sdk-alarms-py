@@ -22,6 +22,7 @@ from waylay.sdk.api._models import Model
 from waylay.services.alarms.api import AlarmsBatchOperationsApi
 from waylay.services.alarms.service import AlarmsService
 
+from ..types.a_batch_alarms_specification_stub import ABatchAlarmsSpecificationStub
 from ..types.batch_operation_enqueued_stub import BatchOperationEnqueuedStub
 from ..types.batch_operation_results_stub import BatchOperationResultsStub
 
@@ -115,7 +116,9 @@ async def test_start(service: AlarmsService, gateway_url: str, httpx_mock: HTTPX
     Start Alarms Batch Operation
     """
     # set path params
-    kwargs = {}
+    kwargs = {
+        "json": ABatchAlarmsSpecificationStub.create_instance(),
+    }
     _start_set_mock_response(httpx_mock, gateway_url)
     resp = await service.alarms_batch_operations.start(**kwargs)
     check_type(resp, Union[BatchOperationEnqueued,])
@@ -130,7 +133,9 @@ async def test_start_without_types(
     Start Alarms Batch Operation
     """
     # set path params
-    kwargs = {}
+    kwargs = {
+        "json": ABatchAlarmsSpecificationStub.create_json(),
+    }
     _start_set_mock_response(httpx_mock, gateway_url)
     resp = await service.alarms_batch_operations.start(**kwargs)
     check_type(resp, Model)

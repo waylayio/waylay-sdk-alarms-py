@@ -46,11 +46,23 @@ class QueuedOperationSummaryActionStub:
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return queued_operation_summary_action_faker.generate()
+        return queued_operation_summary_action_faker.generate(
+            use_defaults=True, use_examples=True
+        )
 
     @classmethod
     def create_instance(cls) -> "QueuedOperationSummaryAction":
         """Create QueuedOperationSummaryAction stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
-        return QueuedOperationSummaryActionAdapter.validate_python(cls.create_json())
+        json = cls.create_json()
+        if not json:
+            # use backup example based on the pydantic model schema
+            backup_faker = JSF(
+                QueuedOperationSummaryActionAdapter.json_schema(),
+                allow_none_optionals=1,
+            )
+            json = backup_faker.generate(use_defaults=True, use_examples=True)
+        return QueuedOperationSummaryActionAdapter.validate_python(
+            json, context={"skip_validation": True}
+        )

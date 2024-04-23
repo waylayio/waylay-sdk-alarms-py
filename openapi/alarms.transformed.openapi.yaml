@@ -52,7 +52,7 @@ paths:
       x-py-method: create
       x-consumes-multipart: false
       x-consumes-urlencoded: false
-      x-consumes-json: false
+      x-consumes-json: true
       x-consumes-other: false
     get:
       operationId: list
@@ -455,7 +455,7 @@ paths:
       x-py-method: start
       x-consumes-multipart: false
       x-consumes-urlencoded: false
-      x-consumes-json: false
+      x-consumes-json: true
       x-consumes-other: false
   /alarms/v1/batch/{batchId}:
     get:
