@@ -38,6 +38,8 @@ try:
     # Create Alarm
     # calls `POST /alarms/v1/alarms`
     api_response = await waylay_client.alarms.alarms.create(
+        # json data: use a generated model or a json-serializable python data structure (dict, list)
+        json = waylay.services.alarms.CreateAlarm() # CreateAlarm | Alarm Operations
     )
     print("The response of alarms.alarms.create:\n")
     pprint(api_response)
@@ -53,6 +55,7 @@ POST /alarms/v1/alarms
 
 Name     | Type  | API binding   | Description   | Notes
 -------- | ----- | ------------- | ------------- | -------------
+**json** | [**CreateAlarm**](CreateAlarm.md) | json request body | Alarm Operations | 
 **headers** | [HeaderTypes](Operation.md#req_headers) | request headers |  | 
 
 ### Return type

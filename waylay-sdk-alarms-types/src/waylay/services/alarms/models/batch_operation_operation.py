@@ -30,8 +30,5 @@ class BatchOperationOperation(WaylayBaseModel):
     description: StrictStr = Field(description="Description of the operation")
 
     model_config = ConfigDict(
-        populate_by_name=True,
-        validate_assignment=True,
-        protected_namespaces=(),
-        extra="ignore",
+        populate_by_name=True, protected_namespaces=(), extra="ignore"
     )
