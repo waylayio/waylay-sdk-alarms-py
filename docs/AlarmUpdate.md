@@ -7,7 +7,7 @@ At least one field must be specified.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **severity** | [**AlarmSeverity**](AlarmSeverity.md) |  | [optional] 
-**status** | [**AlarmStatus**](AlarmStatus.md) |  | [optional] 
+**status** | [**AlarmStatus**](AlarmStatus.md) |  | [optional] [default to AlarmStatus.ACTIVE]
 **assignee** | **str** |  | [optional] 
 
 ## Example

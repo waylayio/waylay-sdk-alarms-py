@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **timestamp** | **datetime** |  | 
 **source** | [**IdObject**](IdObject.md) |  | 
 **severity** | [**AlarmSeverity**](AlarmSeverity.md) |  | 
-**status** | [**AlarmStatus**](AlarmStatus.md) |  | 
+**status** | [**AlarmStatus**](AlarmStatus.md) |  | [default to AlarmStatus.ACTIVE]
 **count** | **int** |  | 
 
 ## Example
