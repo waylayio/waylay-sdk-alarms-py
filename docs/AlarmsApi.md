@@ -260,8 +260,8 @@ try:
             'lastUpdatedTo': 56
             'lastTriggeredFrom': 56
             'lastTriggeredTo': 56
-            'sort': 'timestamp'
-            'order': 'asc'
+            'sort': timestamp
+            'order': desc
             'page': 1
             'size': 50
             'additionalQueryParams': {'key': waylay.services.alarms.ListAdditionalQueryParamsParameterValue()}
@@ -296,8 +296,8 @@ Name     | Type  | API binding   | Description   | Notes
 **query['lastUpdatedTo']** (dict) <br> **query.last_updated_to** (Query) | **int** | query parameter `"lastUpdatedTo"` | Filter on alarm lastUpdateTime (equal or below). | [optional] 
 **query['lastTriggeredFrom']** (dict) <br> **query.last_triggered_from** (Query) | **int** | query parameter `"lastTriggeredFrom"` | Filter on alarm lastTriggeredTime (equal or above). | [optional] 
 **query['lastTriggeredTo']** (dict) <br> **query.last_triggered_to** (Query) | **int** | query parameter `"lastTriggeredTo"` | Filter on alarm lastTriggeredTime (equal or below). | [optional] 
-**query['sort']** (dict) <br> **query.sort** (Query) | [**ListSortParameter**](.md) | query parameter `"sort"` | (Pagination) field used to sort the alarms  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] 
-**query['order']** (dict) <br> **query.order** (Query) | [**ListOrderParameter**](.md) | query parameter `"order"` | (Pagination) sort order  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] 
+**query['sort']** (dict) <br> **query.sort** (Query) | [**ListSortParameter**](.md) | query parameter `"sort"` | (Pagination) field used to sort the alarms  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] [default timestamp]
+**query['order']** (dict) <br> **query.order** (Query) | [**ListOrderParameter**](.md) | query parameter `"order"` | (Pagination) sort order  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] [default desc]
 **query['page']** (dict) <br> **query.page** (Query) | **int** | query parameter `"page"` | (Pagination) page Number   Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] [default 1]
 **query['size']** (dict) <br> **query.size** (Query) | **int** | query parameter `"size"` | (Pagination) size of a page  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] [default 50]
 **query['additionalQueryParams']** (dict) <br> **query.additional_query_params** (Query) | [**Dict[str, ListAdditionalQueryParamsParameterValue]**](ListAdditionalQueryParamsParameterValue.md) | query parameter `"additionalQueryParams"` | To query the alarms based on the value of an additional property of the alarm,  you can add the key of the additional property as query parameter  with value the value you expect the alarm to have. | [optional] 

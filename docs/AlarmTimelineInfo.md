@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **type** | **str** | Type of the alarm. | 
 **text** | **str** | Description of the alarm. | 
 **severity** | [**AlarmSeverity**](AlarmSeverity.md) |  | 
-**status** | [**AlarmStatus**](AlarmStatus.md) |  | 
+**status** | [**AlarmStatus**](AlarmStatus.md) |  | [default to AlarmStatus.ACTIVE]
 **assignee** | **str** | String field to indicate an assignee for the alarm. | [optional] 
 
 ## Example

@@ -26,7 +26,7 @@ class AlarmUpdate(WaylayBaseModel):
     """At least one field must be specified.."""
 
     severity: AlarmSeverity | None = None
-    status: AlarmStatus | None = None
+    status: AlarmStatus | None = AlarmStatus.ACTIVE
     assignee: Any | None = None
 
     model_config = ConfigDict(

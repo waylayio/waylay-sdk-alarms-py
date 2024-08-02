@@ -31,7 +31,7 @@ class CreateAlarm(WaylayBaseModel):
     text: StrictStr = Field(description="Description of the alarm.")
     severity: AlarmSeverity
     source: IdObject
-    status: AlarmStatus | None = None
+    status: AlarmStatus | None = AlarmStatus.ACTIVE
     timestamp: SO8601TimestampOrMillis | None = None
     assignee: StrictStr | None = Field(
         default=None, description="String field to indicate an assignee for the alarm."

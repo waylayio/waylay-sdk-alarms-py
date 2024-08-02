@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **text** | **str** | Description of the alarm. | 
 **severity** | [**AlarmSeverity**](AlarmSeverity.md) |  | 
 **source** | [**IdObject**](IdObject.md) |  | 
-**status** | [**AlarmStatus**](AlarmStatus.md) |  | [optional] 
+**status** | [**AlarmStatus**](AlarmStatus.md) |  | [optional] [default to AlarmStatus.ACTIVE]
 **timestamp** | [**SO8601TimestampOrMillis**](SO8601TimestampOrMillis.md) |  | [optional] 
 **assignee** | **str** | String field to indicate an assignee for the alarm. | [optional] 
 

@@ -12,7 +12,7 @@ Do not edit the class manually.
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from pydantic import (
     ConfigDict,
@@ -27,8 +27,8 @@ from ..models.cloud_alarm_event_data_type import CloudAlarmEventDataType
 class CloudAlarmEvent(WaylayBaseModel):
     """CloudAlarmEvent."""
 
-    id: Dict[str, Any] | None = None
-    source: Dict[str, Any] | None = None
+    id: Any | None = None
+    source: Any | None = None
     subject: StrictStr
     type: CloudAlarmEventDataType | None = None
     data: AlarmEvent | None = None
