@@ -26,6 +26,7 @@ from ..types.alarm_entity_stub import AlarmEntityStub
 from ..types.alarm_update_stub import AlarmUpdateStub
 from ..types.alarms_query_result_stub import AlarmsQueryResultStub
 from ..types.create_alarm_stub import CreateAlarmStub
+from ..types.list_order_parameter_stub import ListOrderParameterStub
 
 MODELS_AVAILABLE = (
     True if find_spec("waylay.services.alarms.models") is not None else False
@@ -218,7 +219,7 @@ async def test_list(service: AlarmsService, gateway_url: str, httpx_mock: HTTPXM
             last_triggered_from=56,
             last_triggered_to=56,
             sort="timestamp",
-            order="asc",
+            order=ListOrderParameterStub.create_json(),
             page=1,
             size=50,
             additional_query_params={},
@@ -255,7 +256,7 @@ async def test_list_without_types(
             "lastTriggeredFrom": 56,
             "lastTriggeredTo": 56,
             "sort": "timestamp",
-            "order": "asc",
+            "order": ListOrderParameterStub.create_json(),
             "page": 1,
             "size": 50,
             "additionalQueryParams": {},

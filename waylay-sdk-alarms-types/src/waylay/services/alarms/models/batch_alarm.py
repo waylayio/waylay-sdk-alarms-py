@@ -17,6 +17,7 @@ from pydantic import (
     ConfigDict,
     StrictStr,
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.batch_alarm_entity import BatchAlarmEntity

@@ -3,7 +3,6 @@
 LICENSE.txt
 Makefile
 README.md
-docs/ABatchAlarmsSpecification.md
 docs/AboutApi.md
 docs/AlarmAuditRecord.md
 docs/AlarmEntity.md
@@ -30,6 +29,7 @@ docs/AlarmsQueryResult.md
 docs/AlarmsTimelineItem.md
 docs/BatchAlarm.md
 docs/BatchAlarmEntity.md
+docs/BatchAlarmsSpecification.md
 docs/BatchDeleteAlarm.md
 docs/BatchDeleteAlarmAllOfAction.md
 docs/BatchDeleteAlarmAllOfQuery.md
@@ -55,6 +55,8 @@ docs/GetEventstreamEventFormatParameter.md
 docs/IdObject.md
 docs/ListAdditionalQueryParamsParameterValue.md
 docs/ListOrderParameter.md
+docs/ListOrderParameterAnyOf.md
+docs/ListOrderParameterAnyOf1.md
 docs/ListSortParameter.md
 docs/NdJsonResponseStream.md
 docs/Operation.md
@@ -77,7 +79,6 @@ test/api/alarms_batch_operations_api_test.py
 test/conftest.py
 test/openapi.py
 test/types/__init__.py
-test/types/a_batch_alarms_specification_stub.py
 test/types/alarm_audit_record_stub.py
 test/types/alarm_entity_stub.py
 test/types/alarm_event_alarm_stub.py
@@ -100,6 +101,7 @@ test/types/alarms_query_result_stub.py
 test/types/alarms_timeline_item_stub.py
 test/types/batch_alarm_entity_stub.py
 test/types/batch_alarm_stub.py
+test/types/batch_alarms_specification_stub.py
 test/types/batch_delete_alarm_all_of_action_stub.py
 test/types/batch_delete_alarm_all_of_query_stub.py
 test/types/batch_delete_alarm_stub.py
@@ -124,6 +126,8 @@ test/types/failure_operation_result_value_stub.py
 test/types/get_eventstream_event_format_parameter_stub.py
 test/types/id_object_stub.py
 test/types/list_additional_query_params_parameter_value_stub.py
+test/types/list_order_parameter_any_of1_stub.py
+test/types/list_order_parameter_any_of_stub.py
 test/types/list_order_parameter_stub.py
 test/types/list_sort_parameter_stub.py
 test/types/nd_json_response_stream_stub.py

@@ -10,7 +10,7 @@ Do not edit the class manually.
 
 from __future__ import annotations  # for Python 3.7–3.9
 
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from pydantic import (
     ConfigDict,
@@ -21,6 +21,7 @@ from pydantic import (
 from typing_extensions import (
     Annotated,  # >=3.11
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.alarm_severity import AlarmSeverity
@@ -28,7 +29,6 @@ from ..models.alarm_status import AlarmStatus
 from ..models.list_additional_query_params_parameter_value import (
     ListAdditionalQueryParamsParameterValue,
 )
-from ..models.list_order_parameter import ListOrderParameter
 from ..models.list_sort_parameter import ListSortParameter
 
 
@@ -190,7 +190,7 @@ class ListQuery(WaylayBaseModel):
         ),
     ] = None
     order: Annotated[
-        ListOrderParameter | None,
+        Any | None,
         Field(
             description="(Pagination) sort order  Ignored in combination with `Accept: application/vnd.waylay.alarms.timeseries+json`"
         ),

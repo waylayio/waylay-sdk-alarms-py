@@ -22,7 +22,7 @@ from typing_extensions import (
 from ..models.batch_delete_alarm import BatchDeleteAlarm
 from ..models.batch_update_alarm import BatchUpdateAlarm
 
-ABatchAlarmsSpecification = Union[
+BatchAlarmsSpecification = Union[
     Annotated[BatchUpdateAlarm, ""], Annotated[BatchDeleteAlarm, ""]
 ]
-"""ABatchAlarmsSpecification."""
+"""BatchAlarmsSpecification."""

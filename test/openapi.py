@@ -29,23 +29,6 @@ with open("openapi/alarms.transformed.openapi.yaml", "r") as file:
 
 MODEL_DEFINITIONS = OPENAPI_SPEC["components"]["schemas"]
 
-_a_batch_alarms_specification_model_schema = json.loads(
-    r"""{
-  "title" : "a batch alarms specification",
-  "type" : "object",
-  "oneOf" : [ {
-    "$ref" : "#/components/schemas/BatchUpdateAlarm"
-  }, {
-    "$ref" : "#/components/schemas/BatchDeleteAlarm"
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "a_batch_alarms_specification": _a_batch_alarms_specification_model_schema
-})
-
 _alarm_audit_record_model_schema = json.loads(
     r"""{
   "title" : "AlarmAuditRecord",
@@ -581,6 +564,29 @@ _batch_alarm_entity_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"BatchAlarmEntity": _batch_alarm_entity_model_schema})
+
+_batch_alarms_specification_model_schema = json.loads(
+    r"""{
+  "type" : "object",
+  "example" : {
+    "entity" : "alarm",
+    "action" : "delete",
+    "query" : {
+      "ids" : [ "2c49e3bf-547b-42bc-a5e9-9193155ec03d" ]
+    }
+  },
+  "oneOf" : [ {
+    "$ref" : "#/components/schemas/BatchUpdateAlarm"
+  }, {
+    "$ref" : "#/components/schemas/BatchDeleteAlarm"
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchAlarmsSpecification": _batch_alarms_specification_model_schema
+})
 
 _batch_delete_alarm_model_schema = json.loads(
     r"""{
@@ -1187,14 +1193,43 @@ MODEL_DEFINITIONS.update({
 
 _list_order_parameter_model_schema = json.loads(
     r"""{
+  "anyOf" : [ {
+    "$ref" : "#/components/schemas/list_order_parameter_anyOf"
+  }, {
+    "$ref" : "#/components/schemas/list_order_parameter_anyOf_1"
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"list_order_parameter": _list_order_parameter_model_schema})
+
+_list_order_parameter_any_of_model_schema = json.loads(
+    r"""{
   "type" : "string",
+  "default" : "descending",
+  "enum" : [ "ascending", "descending" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "list_order_parameter_anyOf": _list_order_parameter_any_of_model_schema
+})
+
+_list_order_parameter_any_of_1_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "deprecated" : true,
   "default" : "desc",
   "enum" : [ "asc", "desc" ]
 }
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update({"list_order_parameter": _list_order_parameter_model_schema})
+MODEL_DEFINITIONS.update({
+    "list_order_parameter_anyOf_1": _list_order_parameter_any_of_1_model_schema
+})
 
 _list_sort_parameter_model_schema = json.loads(
     r"""{

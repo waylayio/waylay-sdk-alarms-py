@@ -25,9 +25,11 @@ except ImportError as exc:
 
 list_order_parameter_model_schema = json.loads(
     r"""{
-  "type" : "string",
-  "default" : "desc",
-  "enum" : [ "asc", "desc" ]
+  "anyOf" : [ {
+    "$ref" : "#/components/schemas/list_order_parameter_anyOf"
+  }, {
+    "$ref" : "#/components/schemas/list_order_parameter_anyOf_1"
+  } ]
 }
 """,
     object_hook=with_example_provider,
@@ -53,7 +55,7 @@ class ListOrderParameterStub:
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
                 ListOrderParameterAdapter.json_schema(), allow_none_optionals=1
