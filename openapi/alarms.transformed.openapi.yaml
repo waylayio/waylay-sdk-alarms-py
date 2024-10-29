@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Waylay Alarms
-  version: 1.11.0
+  version: 1.13.1
   description: ''
 externalDocs:
   url: https://docs.waylay.io/#/api/alarms/
@@ -211,18 +211,25 @@ paths:
         - name: order
           in: query
           schema:
-            type: string
-            enum:
-              - asc
-              - desc
-            default: desc
+            anyOf:
+              - type: string
+                enum:
+                  - ascending
+                  - descending
+                default: descending
+              - type: string
+                enum:
+                  - asc
+                  - desc
+                default: desc
+                deprecated: true
           description: >-
             (Pagination) sort order
 
 
             Ignored in combination with `Accept:
             application/vnd.waylay.alarms.timeseries+json`
-          x-showExample: true
+          x-showExample: false
         - name: page
           in: query
           schema:
@@ -653,6 +660,17 @@ components:
         - action
         - query
         - actionParameters
+    BatchAlarmsSpecification:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/BatchUpdateAlarm'
+        - $ref: '#/components/schemas/BatchDeleteAlarm'
+      example:
+        entity: alarm
+        action: delete
+        query:
+          ids:
+            - 2c49e3bf-547b-42bc-a5e9-9193155ec03d
     BulkQueryIds:
       type: object
       properties:
@@ -1197,11 +1215,7 @@ components:
       content:
         application/json:
           schema:
-            title: a batch alarms specification
-            type: object
-            oneOf:
-              - $ref: '#/components/schemas/BatchUpdateAlarm'
-              - $ref: '#/components/schemas/BatchDeleteAlarm'
+            $ref: '#/components/schemas/BatchAlarmsSpecification'
   responses:
     DefaultSuccessResponse:
       description: Successful Response

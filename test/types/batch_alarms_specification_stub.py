@@ -16,19 +16,25 @@ from pydantic import TypeAdapter
 from ..openapi import MODEL_DEFINITIONS, with_example_provider
 
 try:
-    from waylay.services.alarms.models.a_batch_alarms_specification import (
-        ABatchAlarmsSpecification,
+    from waylay.services.alarms.models.batch_alarms_specification import (
+        BatchAlarmsSpecification,
     )
 
-    ABatchAlarmsSpecificationAdapter = TypeAdapter(ABatchAlarmsSpecification)
+    BatchAlarmsSpecificationAdapter = TypeAdapter(BatchAlarmsSpecification)
     MODELS_AVAILABLE = True
 except ImportError as exc:
     MODELS_AVAILABLE = False
 
-a_batch_alarms_specification_model_schema = json.loads(
+batch_alarms_specification_model_schema = json.loads(
     r"""{
-  "title" : "a batch alarms specification",
   "type" : "object",
+  "example" : {
+    "entity" : "alarm",
+    "action" : "delete",
+    "query" : {
+      "ids" : [ "2c49e3bf-547b-42bc-a5e9-9193155ec03d" ]
+    }
+  },
   "oneOf" : [ {
     "$ref" : "#/components/schemas/BatchUpdateAlarm"
   }, {
@@ -38,35 +44,35 @@ a_batch_alarms_specification_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-a_batch_alarms_specification_model_schema.update({"definitions": MODEL_DEFINITIONS})
+batch_alarms_specification_model_schema.update({"definitions": MODEL_DEFINITIONS})
 
-a_batch_alarms_specification_faker = JSF(
-    a_batch_alarms_specification_model_schema, allow_none_optionals=1
+batch_alarms_specification_faker = JSF(
+    batch_alarms_specification_model_schema, allow_none_optionals=1
 )
 
 
-class ABatchAlarmsSpecificationStub:
-    """ABatchAlarmsSpecification unit test stubs."""
+class BatchAlarmsSpecificationStub:
+    """BatchAlarmsSpecification unit test stubs."""
 
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return a_batch_alarms_specification_faker.generate(
+        return batch_alarms_specification_faker.generate(
             use_defaults=True, use_examples=True
         )
 
     @classmethod
-    def create_instance(cls) -> "ABatchAlarmsSpecification":
-        """Create ABatchAlarmsSpecification stub instance."""
+    def create_instance(cls) -> "BatchAlarmsSpecification":
+        """Create BatchAlarmsSpecification stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
-        if not json:
+        if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
-                ABatchAlarmsSpecificationAdapter.json_schema(), allow_none_optionals=1
+                BatchAlarmsSpecificationAdapter.json_schema(), allow_none_optionals=1
             )
             json = backup_faker.generate(use_defaults=True, use_examples=True)
-        return ABatchAlarmsSpecificationAdapter.validate_python(
+        return BatchAlarmsSpecificationAdapter.validate_python(
             json, context={"skip_validation": True}
         )

@@ -16,54 +16,53 @@ from pydantic import TypeAdapter
 from ..openapi import MODEL_DEFINITIONS, with_example_provider
 
 try:
-    from waylay.services.alarms.models.alarm_event_type_one_of import (
-        AlarmEventTypeOneOf,
+    from waylay.services.alarms.models.list_order_parameter_any_of import (
+        ListOrderParameterAnyOf,
     )
 
-    AlarmEventTypeOneOfAdapter = TypeAdapter(AlarmEventTypeOneOf)
+    ListOrderParameterAnyOfAdapter = TypeAdapter(ListOrderParameterAnyOf)
     MODELS_AVAILABLE = True
 except ImportError as exc:
     MODELS_AVAILABLE = False
 
-alarm_event_type_one_of_model_schema = json.loads(
+list_order_parameter_any_of_model_schema = json.loads(
     r"""{
-  "title" : "AlarmEventType_oneOf",
   "type" : "string",
-  "description" : "A new alarm was created.",
-  "enum" : [ "io.waylay.alarm.AlarmRaised" ]
+  "default" : "descending",
+  "enum" : [ "ascending", "descending" ]
 }
 """,
     object_hook=with_example_provider,
 )
-alarm_event_type_one_of_model_schema.update({"definitions": MODEL_DEFINITIONS})
+list_order_parameter_any_of_model_schema.update({"definitions": MODEL_DEFINITIONS})
 
-alarm_event_type_one_of_faker = JSF(
-    alarm_event_type_one_of_model_schema, allow_none_optionals=1
+list_order_parameter_any_of_faker = JSF(
+    list_order_parameter_any_of_model_schema, allow_none_optionals=1
 )
 
 
-class AlarmEventTypeOneOfStub:
-    """AlarmEventTypeOneOf unit test stubs."""
+class ListOrderParameterAnyOfStub:
+    """ListOrderParameterAnyOf unit test stubs."""
 
     @classmethod
     def create_json(cls):
         """Create a dict stub instance."""
-        return alarm_event_type_one_of_faker.generate(
+        return list_order_parameter_any_of_faker.generate(
             use_defaults=True, use_examples=True
         )
 
     @classmethod
-    def create_instance(cls) -> "AlarmEventTypeOneOf":
-        """Create AlarmEventTypeOneOf stub instance."""
+    def create_instance(cls) -> "ListOrderParameterAnyOf":
+        """Create ListOrderParameterAnyOf stub instance."""
         if not MODELS_AVAILABLE:
             raise ImportError("Models must be installed to create class stubs")
         json = cls.create_json()
         if json is None:
             # use backup example based on the pydantic model schema
             backup_faker = JSF(
-                AlarmEventTypeOneOfAdapter.json_schema(), allow_none_optionals=1
+                ListOrderParameterAnyOfAdapter.json_schema(), allow_none_optionals=1
             )
             json = backup_faker.generate(use_defaults=True, use_examples=True)
-        return AlarmEventTypeOneOfAdapter.validate_python(
+        return ListOrderParameterAnyOfAdapter.validate_python(
             json, context={"skip_validation": True}
         )

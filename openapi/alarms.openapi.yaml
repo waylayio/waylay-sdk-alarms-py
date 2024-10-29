@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Waylay Alarms
-  version: 1.11.0
+  version: 1.13.1
   description: ''
 externalDocs:
   url: https://docs.waylay.io/#/api/alarms/
@@ -158,11 +158,20 @@ paths:
       - name: order
         in: query
         schema:
-          type: string
-          enum:
-          - asc
-          - desc
-          default: desc
+          anyOf:
+          - type: string
+            title: Sort order
+            enum:
+            - ascending
+            - descending
+            default: descending
+          - type: string
+            title: Deprecated Sort order
+            enum:
+            - asc
+            - desc
+            default: desc
+            deprecated: true
         description: '(Pagination) sort order
 
 
@@ -529,6 +538,18 @@ components:
       - action
       - query
       - actionParameters
+    BatchAlarmsSpecification:
+      title: a batch alarms specification
+      type: object
+      oneOf:
+      - $ref: '#/components/schemas/BatchUpdateAlarm'
+      - $ref: '#/components/schemas/BatchDeleteAlarm'
+      example:
+        entity: alarm
+        action: delete
+        query:
+          ids:
+          - 2c49e3bf-547b-42bc-a5e9-9193155ec03d
     BulkQueryIds:
       title: Bulk Query Ids Filter
       type: object
@@ -1087,11 +1108,7 @@ components:
       content:
         application/json:
           schema:
-            title: a batch alarms specification
-            type: object
-            oneOf:
-            - $ref: '#/components/schemas/BatchUpdateAlarm'
-            - $ref: '#/components/schemas/BatchDeleteAlarm'
+            $ref: '#/components/schemas/BatchAlarmsSpecification'
   responses:
     DefaultSuccessResponse:
       description: Successful Response

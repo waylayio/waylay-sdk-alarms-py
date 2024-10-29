@@ -19,6 +19,7 @@ from pydantic import (
     StrictInt,
     StrictStr,
 )
+
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.alarm_entity import AlarmEntity

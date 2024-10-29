@@ -28,6 +28,7 @@ from pydantic import (
 from typing_extensions import (
     Annotated,  # >=3.9,
 )
+
 from waylay.sdk.api import (
     HeaderTypes,
     QueryParamTypes,
@@ -38,7 +39,7 @@ from waylay.sdk.plugin import WithApiClient
 
 if TYPE_CHECKING:
     from waylay.services.alarms.models import (
-        ABatchAlarmsSpecification,
+        BatchAlarmsSpecification,
         BatchOperationEnqueued,
         BatchOperationResults,
         ErrorResponse,
@@ -52,7 +53,7 @@ if TYPE_CHECKING:
 
 try:
     from waylay.services.alarms.models import (
-        ABatchAlarmsSpecification,
+        BatchAlarmsSpecification,
         BatchOperationEnqueued,
         BatchOperationResults,
         ErrorResponse,
@@ -73,7 +74,7 @@ except ImportError:
 
         ErrorResponse = Model
 
-        ABatchAlarmsSpecification = Model
+        BatchAlarmsSpecification = Model
 
         StartQuery = dict
         BatchOperationEnqueued = Model
@@ -260,7 +261,7 @@ class AlarmsBatchOperationsApi(WithApiClient):
         self,
         *,
         json: Annotated[
-            ABatchAlarmsSpecification, Field(description="Batch Alarm Operation")
+            BatchAlarmsSpecification, Field(description="Batch Alarm Operation")
         ],
         query: StartQuery | QueryParamTypes | None = None,
         raw_response: Literal[False] = False,
@@ -276,7 +277,7 @@ class AlarmsBatchOperationsApi(WithApiClient):
         self,
         *,
         json: Annotated[
-            ABatchAlarmsSpecification, Field(description="Batch Alarm Operation")
+            BatchAlarmsSpecification, Field(description="Batch Alarm Operation")
         ],
         query: StartQuery | QueryParamTypes | None = None,
         raw_response: Literal[False] = False,
@@ -292,7 +293,7 @@ class AlarmsBatchOperationsApi(WithApiClient):
         self,
         *,
         json: Annotated[
-            ABatchAlarmsSpecification, Field(description="Batch Alarm Operation")
+            BatchAlarmsSpecification, Field(description="Batch Alarm Operation")
         ],
         query: StartQuery | QueryParamTypes | None = None,
         raw_response: Literal[True],
@@ -308,7 +309,7 @@ class AlarmsBatchOperationsApi(WithApiClient):
         self,
         *,
         json: Annotated[
-            ABatchAlarmsSpecification, Field(description="Batch Alarm Operation")
+            BatchAlarmsSpecification, Field(description="Batch Alarm Operation")
         ],
         query: StartQuery | QueryParamTypes | None = None,
         raw_response: Literal[False] = False,
@@ -324,7 +325,7 @@ class AlarmsBatchOperationsApi(WithApiClient):
         self,
         *,
         json: Annotated[
-            ABatchAlarmsSpecification, Field(description="Batch Alarm Operation")
+            BatchAlarmsSpecification, Field(description="Batch Alarm Operation")
         ],
         query: StartQuery | QueryParamTypes | None = None,
         raw_response: Literal[False] = False,
@@ -339,7 +340,7 @@ class AlarmsBatchOperationsApi(WithApiClient):
         self,
         *,
         json: Annotated[
-            ABatchAlarmsSpecification, Field(description="Batch Alarm Operation")
+            BatchAlarmsSpecification, Field(description="Batch Alarm Operation")
         ],
         query: StartQuery | QueryParamTypes | None = None,
         raw_response: StrictBool = False,
@@ -353,7 +354,7 @@ class AlarmsBatchOperationsApi(WithApiClient):
 
         Start Alarms Batch Operation.
         :param json: Batch Alarm Operation
-        :type json: ABatchAlarmsSpecification, optional
+        :type json: BatchAlarmsSpecification, optional
         :param query: URL Query parameters.
         :type query: StartQuery | QueryParamTypes, optional
         :param raw_response: If true, return the http Response object instead of returning an api model object, or throwing an ApiError.
@@ -387,8 +388,7 @@ class AlarmsBatchOperationsApi(WithApiClient):
         if json is not None and validate_request:
             body_adapter: Any = TypeAdapter(
                 Annotated[
-                    ABatchAlarmsSpecification,
-                    Field(description="Batch Alarm Operation"),
+                    BatchAlarmsSpecification, Field(description="Batch Alarm Operation")
                 ]
             )
             json = body_adapter.validate_python(json)  # type: ignore # https://github.com/pydantic/pydantic/discussions/7094

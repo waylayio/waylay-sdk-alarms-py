@@ -98,14 +98,14 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
-from waylay.services.alarms.models.a_batch_alarms_specification import ABatchAlarmsSpecification
+from waylay.services.alarms.models.batch_alarms_specification import BatchAlarmsSpecification
 from waylay.services.alarms.models.batch_operation_enqueued import BatchOperationEnqueued
 try:
     # Start Alarms Batch Operation
     # calls `POST /alarms/v1/batch`
     api_response = await waylay_client.alarms.alarms_batch_operations.start(
         # json data: use a generated model or a json-serializable python data structure (dict, list)
-        json = waylay.services.alarms.ABatchAlarmsSpecification() # ABatchAlarmsSpecification | Batch Alarm Operation
+        json = waylay.services.alarms.BatchAlarmsSpecification() # BatchAlarmsSpecification | Batch Alarm Operation
     )
     print("The response of alarms.alarms_batch_operations.start:\n")
     pprint(api_response)
@@ -121,7 +121,7 @@ POST /alarms/v1/batch
 
 Name     | Type  | API binding   | Description   | Notes
 -------- | ----- | ------------- | ------------- | -------------
-**json** | [**ABatchAlarmsSpecification**](ABatchAlarmsSpecification.md) | json request body | Batch Alarm Operation | 
+**json** | [**BatchAlarmsSpecification**](BatchAlarmsSpecification.md) | json request body | Batch Alarm Operation | 
 **headers** | [HeaderTypes](Operation.md#req_headers) | request headers |  | 
 
 ### Return type
