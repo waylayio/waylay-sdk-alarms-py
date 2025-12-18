@@ -18,7 +18,6 @@ from pydantic import (
     Field,
     StrictStr,
 )
-
 from waylay.sdk.api._models import BaseModel as WaylayBaseModel
 
 from ..models.queued_operation_summary import QueuedOperationSummary

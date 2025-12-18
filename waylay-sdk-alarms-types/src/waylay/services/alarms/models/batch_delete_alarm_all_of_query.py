@@ -15,9 +15,7 @@ from typing import (
     Union,
 )
 
-from typing_extensions import (
-    Annotated,  # >=3.9
-)
+from typing_extensions import Annotated
 
 from ..models.bulk_query_filter import BulkQueryFilter
 from ..models.bulk_query_ids import BulkQueryIds

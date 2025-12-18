@@ -16,9 +16,7 @@ from typing import (
     Union,
 )
 
-from typing_extensions import (
-    Annotated,  # >=3.9
-)
+from typing_extensions import Annotated
 
 AlarmTypeFilter = Union[Annotated[str, "Type of the alarm."], Annotated[List[str], ""]]
 """AlarmTypeFilter."""

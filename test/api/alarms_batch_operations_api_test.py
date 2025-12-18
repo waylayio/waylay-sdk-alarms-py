@@ -11,7 +11,6 @@ Do not edit the class manually.
 import json
 import re
 from importlib.util import find_spec
-from typing import Union
 from urllib.parse import quote
 
 import pytest
@@ -78,7 +77,7 @@ async def test_get(service: AlarmsService, gateway_url: str, httpx_mock: HTTPXMo
     kwargs = {}
     _get_set_mock_response(httpx_mock, gateway_url, quote(str(batchId)))
     resp = await service.alarms_batch_operations.get(batchId, **kwargs)
-    check_type(resp, Union[BatchOperationResults,])
+    check_type(resp, BatchOperationResults)
 
 
 @pytest.mark.asyncio
@@ -121,7 +120,7 @@ async def test_start(service: AlarmsService, gateway_url: str, httpx_mock: HTTPX
     }
     _start_set_mock_response(httpx_mock, gateway_url)
     resp = await service.alarms_batch_operations.start(**kwargs)
-    check_type(resp, Union[BatchOperationEnqueued,])
+    check_type(resp, BatchOperationEnqueued)
 
 
 @pytest.mark.asyncio

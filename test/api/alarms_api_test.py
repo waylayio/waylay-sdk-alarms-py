@@ -11,7 +11,6 @@ Do not edit the class manually.
 import json
 import re
 from importlib.util import find_spec
-from typing import Union
 from urllib.parse import quote
 
 import pytest
@@ -26,6 +25,9 @@ from ..types.alarm_entity_stub import AlarmEntityStub
 from ..types.alarm_update_stub import AlarmUpdateStub
 from ..types.alarms_query_result_stub import AlarmsQueryResultStub
 from ..types.create_alarm_stub import CreateAlarmStub
+from ..types.list_additional_query_params_parameter_value_stub import (
+    ListAdditionalQueryParamsParameterValueStub,
+)
 from ..types.list_order_parameter_stub import ListOrderParameterStub
 
 MODELS_AVAILABLE = (
@@ -77,7 +79,7 @@ async def test_create(service: AlarmsService, gateway_url: str, httpx_mock: HTTP
     }
     _create_set_mock_response(httpx_mock, gateway_url)
     resp = await service.alarms.create(**kwargs)
-    check_type(resp, Union[AlarmEntity,])
+    check_type(resp, AlarmEntity)
 
 
 @pytest.mark.asyncio
@@ -163,7 +165,7 @@ async def test_get(service: AlarmsService, gateway_url: str, httpx_mock: HTTPXMo
     kwargs = {}
     _get_set_mock_response(httpx_mock, gateway_url, quote(str(alarmId)))
     resp = await service.alarms.get(alarmId, **kwargs)
-    check_type(resp, Union[AlarmEntity,])
+    check_type(resp, AlarmEntity)
 
 
 @pytest.mark.asyncio
@@ -205,9 +207,9 @@ async def test_list(service: AlarmsService, gateway_url: str, httpx_mock: HTTPXM
         # optionally use ListQuery to validate and reuse parameters
         "query": ListQuery(
             type=["io.waylay.alarm.test"],
-            status=[],
-            severity=[],
-            source=[],
+            status=["ACTIVE"],
+            severity=["CRITICAL"],
+            source=[""],
             date_from=56,
             date_to=56,
             var_from=56,
@@ -222,12 +224,14 @@ async def test_list(service: AlarmsService, gateway_url: str, httpx_mock: HTTPXM
             order=ListOrderParameterStub.create_json(),
             page=1,
             size=50,
-            additional_query_params={},
+            additional_query_params={
+                "inner": ListAdditionalQueryParamsParameterValueStub.create_json()
+            },
         ),
     }
     _list_set_mock_response(httpx_mock, gateway_url)
     resp = await service.alarms.list(**kwargs)
-    check_type(resp, Union[AlarmsQueryResult,])
+    check_type(resp, AlarmsQueryResult)
 
 
 @pytest.mark.asyncio
@@ -242,9 +246,9 @@ async def test_list_without_types(
     kwargs = {
         "query": {
             "type": ["io.waylay.alarm.test"],
-            "status": [],
-            "severity": [],
-            "source": [],
+            "status": ["ACTIVE"],
+            "severity": ["CRITICAL"],
+            "source": [""],
             "dateFrom": 56,
             "dateTo": 56,
             "from": 56,
@@ -259,7 +263,9 @@ async def test_list_without_types(
             "order": ListOrderParameterStub.create_json(),
             "page": 1,
             "size": 50,
-            "additionalQueryParams": {},
+            "additionalQueryParams": {
+                "inner": ListAdditionalQueryParamsParameterValueStub.create_json()
+            },
         },
     }
     _list_set_mock_response(httpx_mock, gateway_url)
@@ -292,7 +298,7 @@ async def test_update(service: AlarmsService, gateway_url: str, httpx_mock: HTTP
     }
     _update_set_mock_response(httpx_mock, gateway_url, quote(str(alarmId)))
     resp = await service.alarms.update(alarmId, **kwargs)
-    check_type(resp, Union[AlarmEntity,])
+    check_type(resp, AlarmEntity)
 
 
 @pytest.mark.asyncio

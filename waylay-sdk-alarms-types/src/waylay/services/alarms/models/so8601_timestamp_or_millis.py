@@ -16,9 +16,7 @@ from typing import (
     Union,
 )
 
-from typing_extensions import (
-    Annotated,  # >=3.9
-)
+from typing_extensions import Annotated
 
 SO8601TimestampOrMillis = Union[
     Annotated[

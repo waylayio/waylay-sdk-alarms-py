@@ -8,7 +8,7 @@ For more information, please visit [the openapi specification](https://docs.wayl
 It is considered an extension of the waylay-sdk-alarms package, and it consists of the typed model classes for all path params, query params, body params and responses for each of the api methods in `waylay-sdk-alarms`.
 
 ## Requirements.
-This package requires Python 3.9+.
+This package requires Python 3.10+.
 
 ## Installation
 

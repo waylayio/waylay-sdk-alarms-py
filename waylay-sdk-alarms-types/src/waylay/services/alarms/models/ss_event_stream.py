@@ -15,9 +15,7 @@ from typing import (
     Union,
 )
 
-from typing_extensions import (
-    Annotated,  # >=3.9
-)
+from typing_extensions import Annotated
 
 from ..models.alarm_event import AlarmEvent
 from ..models.cloud_alarm_event import CloudAlarmEvent
