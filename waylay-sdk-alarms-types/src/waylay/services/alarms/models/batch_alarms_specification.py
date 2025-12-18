@@ -15,9 +15,7 @@ from typing import (
     Union,
 )
 
-from typing_extensions import (
-    Annotated,  # >=3.9
-)
+from typing_extensions import Annotated
 
 from ..models.batch_delete_alarm import BatchDeleteAlarm
 from ..models.batch_update_alarm import BatchUpdateAlarm

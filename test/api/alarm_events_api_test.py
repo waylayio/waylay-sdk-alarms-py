@@ -11,7 +11,7 @@ Do not edit the class manually.
 import json
 import re
 from importlib.util import find_spec
-from typing import AsyncIterator, Union, get_args
+from typing import AsyncIterator, get_args
 
 import pytest
 from pytest_httpx import HTTPXMock
@@ -73,9 +73,9 @@ async def test_get(service: AlarmsService, gateway_url: str, httpx_mock: HTTPXMo
     }
     _get_set_mock_response(httpx_mock, gateway_url)
     resp = await service.alarm_events.get(**kwargs)
-    check_type(resp, Union[AsyncIterator[NdJsonResponseStream],])
+    check_type(resp, AsyncIterator[NdJsonResponseStream])
     async for item in resp:
-        check_type(item, get_args(Union[AsyncIterator[NdJsonResponseStream],])[0])
+        check_type(item, get_args(AsyncIterator[NdJsonResponseStream])[0])
         break  # Test only the first value
 
 
