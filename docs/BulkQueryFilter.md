@@ -2,6 +2,11 @@
 
 Object specifying filters on the alarm to which the operation will be applied. At least one of the filters must be set.
 
+**Source:** `waylay.services.alarms.models.bulk_query_filter`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -20,23 +25,39 @@ Name | Type | Description | Notes
 **last_triggered_from** | **int** |  | [optional] 
 **last_triggered_to** | **int** |  | [optional] 
 
+
 ## Example
 
 ```python
 from waylay.services.alarms.models.bulk_query_filter import BulkQueryFilter
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of BulkQueryFilter from a JSON string
-bulk_query_filter_instance = BulkQueryFilter.from_json(json)
-# print the JSON string representation of the object
-print BulkQueryFilter.to_json()
+bulk_query_filter = BulkQueryFilter(
+    type=...,
+    status=...,
+    severity=...,
+    source=...,
+    date_from=...,
+    date_to=...,
+    assignee=...,
+    creation_time_from=...,
+    creation_time_to=...,
+    last_updated_from=...,
+    last_updated_to=...,
+    last_triggered_from=...,
+    last_triggered_to=...,
+)
 
-# convert the object into a dict
-bulk_query_filter_dict = bulk_query_filter_instance.to_dict()
-# create an instance of BulkQueryFilter from a dict
-bulk_query_filter_form_dict = bulk_query_filter.from_dict(bulk_query_filter_dict)
+# Create from JSON
+bulk_query_filter = BulkQueryFilter.from_json(
+    '{ "type": ..., "status": ..., "severity": ..., "source": ..., "dateFrom": ..., "dateTo": ..., "assignee": ..., "creationTimeFrom": ..., "creationTimeTo": ..., "lastUpdatedFrom": ..., "lastUpdatedTo": ..., "lastTriggeredFrom": ..., "lastTriggeredTo": ... }'
+)
+
+# Export to dictionary
+bulk_query_filter_dict = bulk_query_filter.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

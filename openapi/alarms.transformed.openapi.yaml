@@ -211,18 +211,7 @@ paths:
         - name: order
           in: query
           schema:
-            anyOf:
-              - type: string
-                enum:
-                  - ascending
-                  - descending
-                default: descending
-              - type: string
-                enum:
-                  - asc
-                  - desc
-                default: desc
-                deprecated: true
+            $ref: '#/components/schemas/ListOrder'
           description: >-
             (Pagination) sort order
 
@@ -259,12 +248,7 @@ paths:
           style: form
           explode: true
           schema:
-            type: object
-            additionalProperties:
-              anyOf:
-                - type: number
-                - type: string
-                - type: boolean
+            $ref: '#/components/schemas/AdditionalQueryParams'
           description: >-
             To query the alarms based on the value of an additional property of
             the alarm, 
@@ -419,9 +403,7 @@ paths:
         - name: eventFormat
           in: query
           schema:
-            type: string
-            enum:
-              - application/cloudevents+json
+            $ref: '#/components/schemas/EventStreamFormat'
           description: >-
             The format of events in the stream. 
 
@@ -579,7 +561,7 @@ components:
         status:
           $ref: '#/components/schemas/AlarmStatus'
         timestamp:
-          $ref: '#/components/schemas/SO8601TimestampOrMillis'
+          $ref: '#/components/schemas/ISO8601TimestampOrMillis'
         assignee:
           $ref: '#/components/schemas/AlarmAssignee'
       additionalProperties:
@@ -631,14 +613,12 @@ components:
       type: object
       allOf:
         - $ref: '#/components/schemas/BatchAlarm'
-        - properties:
+        - type: object
+          properties:
             action:
-              enum:
-                - delete
+              $ref: '#/components/schemas/BatchDeleteAction'
             query:
-              oneOf:
-                - $ref: '#/components/schemas/BulkQueryIds'
-                - $ref: '#/components/schemas/BulkQueryFilter'
+              $ref: '#/components/schemas/BatchDeleteQuery'
       required:
         - entity
         - action
@@ -651,8 +631,7 @@ components:
             actionParameters:
               $ref: '#/components/schemas/AlarmUpdate'
             action:
-              enum:
-                - update
+              $ref: '#/components/schemas/BatchUpdateAction'
             query:
               $ref: '#/components/schemas/BulkQueryIds'
       required:
@@ -751,15 +730,15 @@ components:
           allOf:
             - $ref: '#/components/schemas/UnixEpochMillis'
             - title: Alarm lastTriggeredTime filter (<=)
-    SO8601Timestamp:
+    ISO8601Timestamp:
       type: string
       format: date-time
       example: '2011-09-06T12:03:27.845Z'
-    SO8601TimestampOrMillis:
+    ISO8601TimestampOrMillis:
       description: ISO8601 timestamp or unix epoch milliseconds.
       oneOf:
         - $ref: '#/components/schemas/UnixEpochMillis'
-        - $ref: '#/components/schemas/SO8601Timestamp'
+        - $ref: '#/components/schemas/ISO8601Timestamp'
     UnixEpochMillis:
       type: integer
       description: >-
@@ -803,17 +782,17 @@ components:
         id:
           $ref: '#/components/schemas/AlarmId'
         creationTime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         lastUpdateTime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         lastTriggeredTime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         type:
           $ref: '#/components/schemas/AlarmType'
         text:
           $ref: '#/components/schemas/AlarmText'
         timestamp:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         source:
           $ref: '#/components/schemas/IdObject'
         severity:
@@ -867,7 +846,7 @@ components:
           example: Alarm raised
         timestamp:
           allOf:
-            - $ref: '#/components/schemas/SO8601Timestamp'
+            - $ref: '#/components/schemas/ISO8601Timestamp'
             - description: timestamp when the change happened
       required:
         - id
@@ -912,9 +891,9 @@ components:
         id:
           $ref: '#/components/schemas/AlarmId'
         creationTime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         timestamp:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         source:
           $ref: '#/components/schemas/IdObject'
         type:
@@ -956,22 +935,16 @@ components:
     AlarmEventType:
       type: string
       oneOf:
-        - enum:
-            - io.waylay.alarm.AlarmRaised
-          description: A new alarm was created.
-        - enum:
-            - io.waylay.alarm.EventOccuredAgain
-          description: An alarm happened again.
-        - enum:
-            - io.waylay.alarm.AlarmUpdated
-          description: An alarm was updated.
+        - $ref: '#/components/schemas/AlarmRaisedEventType'
+        - $ref: '#/components/schemas/EventOccurredAgainEventType'
+        - $ref: '#/components/schemas/AlarmUpdatedEventType'
     AlarmEvent:
       type: object
       properties:
         eventtype:
           $ref: '#/components/schemas/AlarmEventType'
         eventtime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         alarm:
           $ref: '#/components/schemas/AlarmEventAlarm'
         changes:
@@ -981,26 +954,7 @@ components:
 
             Will only be there if `eventtype` is `io.waylay.alarm.AlarmUpdated`
           items:
-            type: object
-            properties:
-              attribute:
-                type: string
-                example: severity
-              type:
-                type: string
-                description: Indication of what has changed
-                enum:
-                  - io.waylay.alarm.change.severity
-                  - io.waylay.alarm.change.status
-                  - io.waylay.alarm.change.attribute
-              oldValue:
-                type: string
-                nullable: true
-                example: MAJOR
-              newValue:
-                type: string
-                nullable: true
-                example: CRITICAL
+            $ref: '#/components/schemas/AlarmChangeRecord'
       required:
         - eventtype
         - eventtime
@@ -1014,13 +968,13 @@ components:
         tenantId:
           type: string
         creationTime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         type:
           $ref: '#/components/schemas/AlarmType'
         text:
           $ref: '#/components/schemas/AlarmText'
         timestamp:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         source:
           $ref: '#/components/schemas/IdObject'
         severity:
@@ -1053,14 +1007,11 @@ components:
           example: >-
             289dd1a3-35a7-44fa-8596-9aee3ad0b36f/2c49e3bf-547b-42bc-a5e9-9193155ec03d
         type:
-          enum:
-            - io.waylay.alarms.v1.AlarmRaised
-            - io.waylay.alarms.v1.EventOccurredAgain
-            - io.waylay.alarms.v1.AlarmUpdated
+          $ref: '#/components/schemas/CloudAlarmEventType'
         data:
           $ref: '#/components/schemas/AlarmEvent'
         time:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
     CloudAlarmEvent:
       allOf:
         - $ref: ./cloudevents.schema.yaml#/definitions/cloudevent_json
@@ -1086,26 +1037,9 @@ components:
           description: User id of the user who started the operation
           example: user/22f6dfdf-a50c-4eab-953e-8d2e56891dbe
         operation:
-          type: object
-          description: Summary of the batch operation
-          properties:
-            entity:
-              $ref: '#/components/schemas/BatchAlarmEntity'
-            action:
-              type: string
-              enum:
-                - delete
-                - update
-            description:
-              type: string
-              description: Description of the operation
-              example: deleting 3 alarms
-          required:
-            - entity
-            - action
-            - description
+          $ref: '#/components/schemas/BatchOperationSummary'
         queueTime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
       required:
         - id
         - user
@@ -1114,51 +1048,25 @@ components:
     SuccessOperationResult:
       type: object
       description: |-
-        Object containing the successful operation results. 
+        Object containing the successful operation results.
         The keys will be alarm ids.
       additionalProperties:
-        type: object
-        description: The keys will be alarm ids.
-        properties:
-          statusCode:
-            type: integer
-            description: The statusCode of the operation
-        required:
-          - statusCode
+        $ref: '#/components/schemas/SuccessOperationResultValue'
     FailureOperationResult:
       type: object
       description: |-
-        Object containing the unsuccessful operation results. 
+        Object containing the unsuccessful operation results.
         The keys will be alarm ids.
       additionalProperties:
-        type: object
-        description: The keys will be alarm ids.
-        properties:
-          statusCode:
-            type: integer
-            description: The statusCode of the operation
-          error:
-            type: string
-            description: Error description of what went wrong.
-        required:
-          - statusCode
-          - error
+        $ref: '#/components/schemas/FailureOperationResultValue'
     OperationResultObject:
       description: Finished Batch Operation results
       type: object
       properties:
         finishedTime:
-          $ref: '#/components/schemas/SO8601Timestamp'
+          $ref: '#/components/schemas/ISO8601Timestamp'
         results:
-          type: object
-          properties:
-            success:
-              $ref: '#/components/schemas/SuccessOperationResult'
-            failure:
-              $ref: '#/components/schemas/FailureOperationResult'
-          required:
-            - success
-            - failure
+          $ref: '#/components/schemas/BatchOperationResults'
       required:
         - finishedTime
         - results
@@ -1186,6 +1094,184 @@ components:
             e64de65c-e3ef-482d-9eb7-32ca17d1e147:
               statusCode: 404,
               error: alarm with id 'e64de65c-e3ef-482d-9eb7-32ca17d1e147' not found
+    SortOrder:
+      type: string
+      enum:
+        - ascending
+        - descending
+      default: descending
+    DeprecatedSortOrder:
+      type: string
+      enum:
+        - asc
+        - desc
+      default: desc
+      deprecated: true
+    ListOrder:
+      anyOf:
+        - $ref: '#/components/schemas/SortOrder'
+        - $ref: '#/components/schemas/DeprecatedSortOrder'
+    AdditionalQueryParamValue:
+      anyOf:
+        - type: number
+        - type: string
+        - type: boolean
+    AdditionalQueryParams:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/AdditionalQueryParamValue'
+    EventStreamFormat:
+      type: string
+      enum:
+        - application/cloudevents+json
+    BatchDeleteAction:
+      enum:
+        - delete
+    BatchDeleteQuery:
+      oneOf:
+        - $ref: '#/components/schemas/BulkQueryIds'
+        - $ref: '#/components/schemas/BulkQueryFilter'
+    BatchUpdateAction:
+      enum:
+        - update
+    AlarmRaisedEventType:
+      enum:
+        - io.waylay.alarm.AlarmRaised
+      description: A new alarm was created.
+    EventOccurredAgainEventType:
+      enum:
+        - io.waylay.alarm.EventOccuredAgain
+      description: An alarm happened again.
+    AlarmUpdatedEventType:
+      enum:
+        - io.waylay.alarm.AlarmUpdated
+      description: An alarm was updated.
+    AlarmChangeType:
+      type: string
+      description: Indication of what has changed
+      enum:
+        - io.waylay.alarm.change.severity
+        - io.waylay.alarm.change.status
+        - io.waylay.alarm.change.attribute
+    AlarmChangeRecord:
+      type: object
+      properties:
+        attribute:
+          type: string
+          example: severity
+        type:
+          $ref: '#/components/schemas/AlarmChangeType'
+        oldValue:
+          type: string
+          nullable: true
+          example: MAJOR
+        newValue:
+          type: string
+          nullable: true
+          example: CRITICAL
+    CloudAlarmEventType:
+      enum:
+        - io.waylay.alarms.v1.AlarmRaised
+        - io.waylay.alarms.v1.EventOccurredAgain
+        - io.waylay.alarms.v1.AlarmUpdated
+    BatchOperationSummary:
+      type: object
+      description: Summary of the batch operation
+      properties:
+        entity:
+          $ref: '#/components/schemas/BatchAlarmEntity'
+        action:
+          type: string
+          enum:
+            - delete
+            - update
+        description:
+          type: string
+          description: Description of the operation
+          example: deleting 3 alarms
+      required:
+        - entity
+        - action
+        - description
+    SuccessOperationResultValue:
+      type: object
+      description: The keys will be alarm ids.
+      properties:
+        statusCode:
+          type: integer
+          description: The statusCode of the operation
+      required:
+        - statusCode
+    FailureOperationResultValue:
+      type: object
+      description: The keys will be alarm ids.
+      properties:
+        statusCode:
+          type: integer
+          description: The statusCode of the operation
+        error:
+          type: string
+          description: Error description of what went wrong.
+      required:
+        - statusCode
+        - error
+    BatchOperationResults:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/SuccessOperationResult'
+        failure:
+          $ref: '#/components/schemas/FailureOperationResult'
+      required:
+        - success
+        - failure
+    QueuedOperationSummary:
+      type: object
+      properties:
+        entity:
+          $ref: '#/components/schemas/BatchAlarmEntity'
+        action:
+          type: string
+          enum:
+            - update
+            - delete
+      required:
+        - entity
+        - action
+    BatchOperationEnqueuedEntity:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/BatchId'
+        queueTime:
+          $ref: '#/components/schemas/ISO8601Timestamp'
+        operation:
+          $ref: '#/components/schemas/QueuedOperationSummary'
+      required:
+        - id
+        - queueTime
+        - operation
+    BatchOperationEnqueued:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 202
+        uri:
+          type: string
+          description: URI where the batch operation status can be followed
+          format: uri
+          example: /alarms/v1/batch/afcea5a1-81df-44f6-bd34-e0b602a2cf3d
+        entity:
+          $ref: '#/components/schemas/BatchOperationEnqueuedEntity'
+      required:
+        - statusCode
+        - uri
+        - entity
+    GetBatchOperationResponse:
+      anyOf:
+        - $ref: '#/components/schemas/BatchOperationResult'
+        - $ref: '#/components/schemas/BatchOperation'
   parameters:
     AlarmId:
       name: alarmId
@@ -1282,46 +1368,7 @@ components:
       content:
         application/json:
           schema:
-            title: Batch operation enqueued
-            type: object
-            properties:
-              statusCode:
-                type: integer
-                example: 202
-              uri:
-                type: string
-                description: URI where the batch operation status can be followed
-                format: uri
-                example: /alarms/v1/batch/afcea5a1-81df-44f6-bd34-e0b602a2cf3d
-              entity:
-                type: object
-                properties:
-                  id:
-                    $ref: '#/components/schemas/BatchId'
-                  queueTime:
-                    $ref: '#/components/schemas/SO8601Timestamp'
-                  operation:
-                    title: Queued operation summary
-                    type: object
-                    properties:
-                      entity:
-                        $ref: '#/components/schemas/BatchAlarmEntity'
-                      action:
-                        type: string
-                        enum:
-                          - update
-                          - delete
-                    required:
-                      - entity
-                      - action
-                required:
-                  - id
-                  - queueTime
-                  - operation
-            required:
-              - statusCode
-              - uri
-              - entity
+            $ref: '#/components/schemas/BatchOperationEnqueued'
       headers:
         Location:
           description: URI where the batch operation status can be followed
@@ -1334,10 +1381,7 @@ components:
       content:
         application/json:
           schema:
-            title: BatchOperationResults
-            anyOf:
-              - $ref: '#/components/schemas/BatchOperationResult'
-              - $ref: '#/components/schemas/BatchOperation'
+            $ref: '#/components/schemas/GetBatchOperationResponse'
     BatchNotFoundResponse:
       description: Batch Operation Not Found
       content:

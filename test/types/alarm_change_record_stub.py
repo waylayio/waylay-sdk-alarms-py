@@ -1,0 +1,82 @@
+"""Waylay Alarms model tests.
+
+This code was generated from the OpenAPI documentation of 'Waylay Alarms'
+
+Do not edit the class manually.
+"""
+
+import json
+
+from jsf import JSF
+from pydantic import TypeAdapter
+
+from ..openapi import MODEL_DEFINITIONS, with_example_provider
+
+try:
+    from waylay.services.alarms.models.alarm_change_record import AlarmChangeRecord
+
+    AlarmChangeRecordAdapter = TypeAdapter(AlarmChangeRecord)
+    MODELS_AVAILABLE = True
+except ImportError:
+    MODELS_AVAILABLE = False
+
+alarm_change_record_model_schema = json.loads(
+    r"""{
+  "title" : "AlarmChangeRecord",
+  "type" : "object",
+  "properties" : {
+    "attribute" : {
+      "title" : "attribute",
+      "type" : "string",
+      "example" : "severity"
+    },
+    "type" : {
+      "$ref" : "#/components/schemas/AlarmChangeType"
+    },
+    "oldValue" : {
+      "title" : "oldValue",
+      "type" : "string",
+      "nullable" : true,
+      "example" : "MAJOR"
+    },
+    "newValue" : {
+      "title" : "newValue",
+      "type" : "string",
+      "nullable" : true,
+      "example" : "CRITICAL"
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+alarm_change_record_model_schema.update({"definitions": MODEL_DEFINITIONS})
+
+alarm_change_record_faker = JSF(
+    alarm_change_record_model_schema, allow_none_optionals=1
+)
+
+
+class AlarmChangeRecordStub:
+    """AlarmChangeRecord unit test stubs."""
+
+    @classmethod
+    def create_json(cls):
+        """Create a dict stub instance."""
+        return alarm_change_record_faker.generate(use_defaults=True, use_examples=True)
+
+    @classmethod
+    def create_instance(cls) -> "AlarmChangeRecord":
+        """Create AlarmChangeRecord stub instance."""
+        if not MODELS_AVAILABLE:
+            raise ImportError("Models must be installed to create class stubs")
+        json = cls.create_json()
+        if json is None:
+            # use backup example based on the pydantic model schema
+            backup_faker = JSF(
+                AlarmChangeRecordAdapter.json_schema(), allow_none_optionals=1
+            )
+            json = backup_faker.generate(use_defaults=True, use_examples=True)
+        return AlarmChangeRecordAdapter.validate_python(
+            json, context={"skip_validation": True}
+        )

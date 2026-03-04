@@ -22,8 +22,6 @@ Create an alarm.  If an `ACTIVE` or `ACKNOWLEDGED` alarm with the same `source.i
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -34,15 +32,15 @@ waylay_client = WaylayClient.from_profile()
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
 from waylay.services.alarms.models.alarm_entity import AlarmEntity
 from waylay.services.alarms.models.create_alarm import CreateAlarm
+
 try:
     # Create Alarm
     # calls `POST /alarms/v1/alarms`
     api_response = await waylay_client.alarms.alarms.create(
         # json data: use a generated model or a json-serializable python data structure (dict, list)
-        json = waylay.services.alarms.CreateAlarm() # CreateAlarm | Alarm Operations
+        json=waylay.services.alarms.CreateAlarm(),  # CreateAlarm | Alarm Operations
     )
-    print("The response of alarms.alarms.create:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling alarms.alarms.create: %s\n" % e)
 ```
@@ -93,8 +91,6 @@ Delete an Alarm.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -107,7 +103,7 @@ try:
     # Delete Alarm
     # calls `DELETE /alarms/v1/alarms/{alarmId}`
     await waylay_client.alarms.alarms.delete(
-        'alarm_id_example', # alarm_id | path param "alarmId"
+        "alarm_id_example",  # alarm_id | path param "alarmId"
     )
 except ApiError as e:
     print("Exception when calling alarms.alarms.delete: %s\n" % e)
@@ -159,8 +155,6 @@ Get an alarm.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -170,14 +164,14 @@ waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
 from waylay.services.alarms.models.alarm_entity import AlarmEntity
+
 try:
     # Get Alarm
     # calls `GET /alarms/v1/alarms/{alarmId}`
     api_response = await waylay_client.alarms.alarms.get(
-        'alarm_id_example', # alarm_id | path param "alarmId"
+        "alarm_id_example",  # alarm_id | path param "alarmId"
     )
-    print("The response of alarms.alarms.get:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling alarms.alarms.get: %s\n" % e)
 ```
@@ -228,8 +222,6 @@ Query multiple alarms using a query language. The response contains the total nu
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -238,35 +230,39 @@ from waylay.sdk.api.api_exceptions import ApiError
 waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
+from waylay.services.alarms.models.additional_query_param_value import (
+    AdditionalQueryParamValue,
+)
 from waylay.services.alarms.models.alarm_severity import AlarmSeverity
 from waylay.services.alarms.models.alarm_status import AlarmStatus
 from waylay.services.alarms.models.alarms_query_result import AlarmsQueryResult
-from waylay.services.alarms.models.list_additional_query_params_parameter_value import ListAdditionalQueryParamsParameterValue
 from waylay.services.alarms.models.list_sort_parameter import ListSortParameter
+
 try:
     # Query Multiple Alarms
     # calls `GET /alarms/v1/alarms`
     api_response = await waylay_client.alarms.alarms.list(
         # query parameters:
-        query = {
-            'dateFrom': 56
-            'dateTo': 56
-            'from': 56
-            'to': 56
-            'creationTimeFrom': 56
-            'creationTimeTo': 56
-            'lastUpdatedFrom': 56
-            'lastUpdatedTo': 56
-            'lastTriggeredFrom': 56
-            'lastTriggeredTo': 56
-            'sort': timestamp
-            'page': 1
-            'size': 50
-            'additionalQueryParams': {'key': waylay.services.alarms.ListAdditionalQueryParamsParameterValue()}
+        query={
+            "dateFrom": 56,
+            "dateTo": 56,
+            "from": 56,
+            "to": 56,
+            "creationTimeFrom": 56,
+            "creationTimeTo": 56,
+            "lastUpdatedFrom": 56,
+            "lastUpdatedTo": 56,
+            "lastTriggeredFrom": 56,
+            "lastTriggeredTo": 56,
+            "sort": timestamp,
+            "page": 1,
+            "size": 50,
+            "additionalQueryParams": {
+                "key": waylay.services.alarms.AdditionalQueryParamValue()
+            },
         },
     )
-    print("The response of alarms.alarms.list:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling alarms.alarms.list: %s\n" % e)
 ```
@@ -280,10 +276,10 @@ GET /alarms/v1/alarms
 Name     | Type  | API binding   | Description   | Notes
 -------- | ----- | ------------- | ------------- | -------------
 **query** | [QueryParamTypes](Operation.md#req_arg_query) \| **None** | URL query parameter |  | 
-**query['type']** (dict) <br> **query.type** (Query) | [**List[str]**](str.md) | query parameter `"type"` | Filter on one or more alarm types. | [optional] 
+**query['type']** (dict) <br> **query.type** (Query) | **List[str]** | query parameter `"type"` | Filter on one or more alarm types. | [optional] 
 **query['status']** (dict) <br> **query.status** (Query) | [**List[AlarmStatus]**](AlarmStatus.md) | query parameter `"status"` | Filter on one or more alarm statuses. | [optional] 
 **query['severity']** (dict) <br> **query.severity** (Query) | [**List[AlarmSeverity]**](AlarmSeverity.md) | query parameter `"severity"` | Filter on one or more alarm severities. | [optional] 
-**query['source']** (dict) <br> **query.source** (Query) | [**List[str]**](str.md) | query parameter `"source"` | Filter on one or more source ids.  At least one source id is mandatory in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] 
+**query['source']** (dict) <br> **query.source** (Query) | **List[str]** | query parameter `"source"` | Filter on one or more source ids.  At least one source id is mandatory in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] 
 **query['dateFrom']** (dict) <br> **query.date_from** (Query) | **int** | query parameter `"dateFrom"` | Filter on alarm timestamp (equal or above). | [optional] 
 **query['dateTo']** (dict) <br> **query.date_to** (Query) | **int** | query parameter `"dateTo"` | Filter on alarm timestamp (equal or below). | [optional] 
 **query['from']** (dict) <br> **query.var_from** (Query) | **int** | query parameter `"from"` | Only applicable in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60;  Limits the timestamp of the Alarm Audit Records to be &gt;&#x3D; &#x60;from&#x60; | [optional] 
@@ -294,11 +290,11 @@ Name     | Type  | API binding   | Description   | Notes
 **query['lastUpdatedTo']** (dict) <br> **query.last_updated_to** (Query) | **int** | query parameter `"lastUpdatedTo"` | Filter on alarm lastUpdateTime (equal or below). | [optional] 
 **query['lastTriggeredFrom']** (dict) <br> **query.last_triggered_from** (Query) | **int** | query parameter `"lastTriggeredFrom"` | Filter on alarm lastTriggeredTime (equal or above). | [optional] 
 **query['lastTriggeredTo']** (dict) <br> **query.last_triggered_to** (Query) | **int** | query parameter `"lastTriggeredTo"` | Filter on alarm lastTriggeredTime (equal or below). | [optional] 
-**query['sort']** (dict) <br> **query.sort** (Query) | [**ListSortParameter**](.md) | query parameter `"sort"` | (Pagination) field used to sort the alarms  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] [default timestamp]
-**query['order']** (dict) <br> **query.order** (Query) | [**ListOrderParameter**](.md) | query parameter `"order"` | (Pagination) sort order  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] 
+**query['sort']** (dict) <br> **query.sort** (Query) | [**ListSortParameter**](ListSortParameter.md) | query parameter `"sort"` | (Pagination) field used to sort the alarms  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] [default timestamp]
+**query['order']** (dict) <br> **query.order** (Query) | [**ListOrder**](ListOrder.md) | query parameter `"order"` | (Pagination) sort order  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] 
 **query['page']** (dict) <br> **query.page** (Query) | **int** | query parameter `"page"` | (Pagination) page Number   Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] [default 1]
 **query['size']** (dict) <br> **query.size** (Query) | **int** | query parameter `"size"` | (Pagination) size of a page  Ignored in combination with &#x60;Accept: application/vnd.waylay.alarms.timeseries+json&#x60; | [optional] [default 50]
-**query['additionalQueryParams']** (dict) <br> **query.additional_query_params** (Query) | [**Dict[str, ListAdditionalQueryParamsParameterValue]**](ListAdditionalQueryParamsParameterValue.md) | query parameter `"additionalQueryParams"` | To query the alarms based on the value of an additional property of the alarm,  you can add the key of the additional property as query parameter  with value the value you expect the alarm to have. | [optional] 
+**query['additionalQueryParams']** (dict) <br> **query.additional_query_params** (Query) | [**Dict[str, AdditionalQueryParamValue]**](AdditionalQueryParamValue.md) | query parameter `"additionalQueryParams"` | To query the alarms based on the value of an additional property of the alarm,  you can add the key of the additional property as query parameter  with value the value you expect the alarm to have. | [optional] 
 **headers** | [HeaderTypes](Operation.md#req_headers) | request headers |  | 
 
 ### Return type
@@ -336,8 +332,6 @@ Update an alarm.
 ### Example
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -348,16 +342,16 @@ waylay_client = WaylayClient.from_profile()
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
 from waylay.services.alarms.models.alarm_entity import AlarmEntity
 from waylay.services.alarms.models.alarm_update import AlarmUpdate
+
 try:
     # Update Alarm
     # calls `PUT /alarms/v1/alarms/{alarmId}`
     api_response = await waylay_client.alarms.alarms.update(
-        'alarm_id_example', # alarm_id | path param "alarmId"
+        "alarm_id_example",  # alarm_id | path param "alarmId"
         # json data: use a generated model or a json-serializable python data structure (dict, list)
-        json = waylay.services.alarms.AlarmUpdate() # AlarmUpdate | 
+        json=waylay.services.alarms.AlarmUpdate(),  # AlarmUpdate |
     )
-    print("The response of alarms.alarms.update:\n")
-    pprint(api_response)
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling alarms.alarms.update: %s\n" % e)
 ```

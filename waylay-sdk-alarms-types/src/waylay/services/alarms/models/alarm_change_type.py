@@ -1,0 +1,24 @@
+"""Waylay Alarms models.
+
+This code was generated from the OpenAPI documentation of 'Waylay Alarms'
+
+Do not edit the class manually.
+
+"""
+
+from __future__ import annotations
+
+from enum import Enum
+
+
+class AlarmChangeType(str, Enum):
+    """Indication of what has changed."""
+
+    IO_DOT_WAYLAY_DOT_ALARM_DOT_CHANGE_DOT_SEVERITY = "io.waylay.alarm.change.severity"
+    IO_DOT_WAYLAY_DOT_ALARM_DOT_CHANGE_DOT_STATUS = "io.waylay.alarm.change.status"
+    IO_DOT_WAYLAY_DOT_ALARM_DOT_CHANGE_DOT_ATTRIBUTE = (
+        "io.waylay.alarm.change.attribute"
+    )
+
+    def __str__(self) -> str:
+        return str(self.value)

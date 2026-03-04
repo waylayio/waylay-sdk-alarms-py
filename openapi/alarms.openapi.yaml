@@ -161,12 +161,14 @@ paths:
           anyOf:
           - type: string
             title: Sort order
+            x-classname: SortOrder
             enum:
             - ascending
             - descending
             default: descending
           - type: string
             title: Deprecated Sort order
+            x-classname: DeprecatedSortOrder
             enum:
             - asc
             - desc
@@ -198,11 +200,13 @@ paths:
         explode: true
         schema:
           type: object
+          x-classname: AdditionalQueryParams
           additionalProperties:
             anyOf:
             - type: number
             - type: string
             - type: boolean
+            x-classname: AdditionalQueryParamValue
         description: "To query the alarms based on the value of an additional property\
           \ of the alarm, \nyou can add the key of the additional property as query\
           \ parameter \nwith value the value you expect the alarm to have."
@@ -324,6 +328,7 @@ paths:
         in: query
         schema:
           type: string
+          x-classname: EventStreamFormat
           enum:
           - application/cloudevents+json
         description: "The format of events in the stream. \n\nIf specified this must\
@@ -508,14 +513,17 @@ components:
       type: object
       allOf:
       - $ref: '#/components/schemas/BatchAlarm'
-      - properties:
+      - type: object
+        properties:
           action:
             enum:
             - delete
+            x-classname: BatchDeleteAction
           query:
             oneOf:
             - $ref: '#/components/schemas/BulkQueryIds'
             - $ref: '#/components/schemas/BulkQueryFilter'
+            x-classname: BatchDeleteQuery
       required:
       - entity
       - action
@@ -531,6 +539,7 @@ components:
           action:
             enum:
             - update
+            x-classname: BatchUpdateAction
           query:
             $ref: '#/components/schemas/BulkQueryIds'
       required:
@@ -847,14 +856,17 @@ components:
       oneOf:
       - enum:
         - io.waylay.alarm.AlarmRaised
+        x-classname: AlarmRaisedEventType
         description: A new alarm was created.
         title: Alarm Creation Event Type
       - enum:
         - io.waylay.alarm.EventOccuredAgain
+        x-classname: EventOccurredAgainEventType
         description: An alarm happened again.
         title: Alarm Event Happened Again Event type
       - enum:
         - io.waylay.alarm.AlarmUpdated
+        x-classname: AlarmUpdatedEventType
         description: An alarm was updated.
         title: Alarm Update Event Type
     AlarmEvent:
@@ -875,12 +887,14 @@ components:
             Will only be there if `eventtype` is `io.waylay.alarm.AlarmUpdated`'
           items:
             type: object
+            x-classname: AlarmChangeRecord
             properties:
               attribute:
                 type: string
                 example: severity
               type:
                 type: string
+                x-classname: AlarmChangeType
                 description: Indication of what has changed
                 enum:
                 - io.waylay.alarm.change.severity
@@ -950,6 +964,7 @@ components:
           - io.waylay.alarms.v1.AlarmRaised
           - io.waylay.alarms.v1.EventOccurredAgain
           - io.waylay.alarms.v1.AlarmUpdated
+          x-classname: CloudAlarmEventType
         data:
           $ref: '#/components/schemas/AlarmEvent'
         time:
@@ -981,6 +996,7 @@ components:
           example: user/22f6dfdf-a50c-4eab-953e-8d2e56891dbe
         operation:
           type: object
+          x-classname: BatchOperationSummary
           description: Summary of the batch operation
           properties:
             entity:
@@ -1007,10 +1023,12 @@ components:
       - queueTime
     SuccessOperationResult:
       type: object
-      description: "Object containing the successful operation results. \nThe keys\
-        \ will be alarm ids."
+      description: 'Object containing the successful operation results.
+
+        The keys will be alarm ids.'
       additionalProperties:
         type: object
+        x-classname: SuccessOperationResultValue
         description: The keys will be alarm ids.
         properties:
           statusCode:
@@ -1020,10 +1038,12 @@ components:
         - statusCode
     FailureOperationResult:
       type: object
-      description: "Object containing the unsuccessful operation results. \nThe keys\
-        \ will be alarm ids."
+      description: 'Object containing the unsuccessful operation results.
+
+        The keys will be alarm ids.'
       additionalProperties:
         type: object
+        x-classname: FailureOperationResultValue
         description: The keys will be alarm ids.
         properties:
           statusCode:
@@ -1043,6 +1063,7 @@ components:
           $ref: '#/components/schemas/ISO8601Timestamp'
         results:
           type: object
+          x-classname: BatchOperationResults
           properties:
             success:
               $ref: '#/components/schemas/SuccessOperationResult'
@@ -1172,6 +1193,7 @@ components:
           schema:
             title: Batch operation enqueued
             type: object
+            x-classname: BatchOperationEnqueued
             properties:
               statusCode:
                 type: integer
@@ -1183,6 +1205,7 @@ components:
                 example: /alarms/v1/batch/afcea5a1-81df-44f6-bd34-e0b602a2cf3d
               entity:
                 type: object
+                x-classname: BatchOperationEnqueuedEntity
                 properties:
                   id:
                     $ref: '#/components/schemas/BatchId'
@@ -1191,6 +1214,7 @@ components:
                   operation:
                     title: Queued operation summary
                     type: object
+                    x-classname: QueuedOperationSummary
                     properties:
                       entity:
                         $ref: '#/components/schemas/BatchAlarmEntity'
@@ -1223,6 +1247,7 @@ components:
         application/json:
           schema:
             title: BatchOperationResults
+            x-classname: GetBatchOperationResponse
             anyOf:
             - $ref: '#/components/schemas/BatchOperationResult'
             - $ref: '#/components/schemas/BatchOperation'

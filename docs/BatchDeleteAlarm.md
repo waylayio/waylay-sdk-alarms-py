@@ -1,31 +1,38 @@
 # BatchDeleteAlarm
 
 
+**Source:** `waylay.services.alarms.models.batch_delete_alarm`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **entity** | [**BatchAlarmEntity**](BatchAlarmEntity.md) |  | 
-**action** | [**BatchDeleteAlarmAllOfAction**](BatchDeleteAlarmAllOfAction.md) |  | 
-**query** | [**BatchDeleteAlarmAllOfQuery**](BatchDeleteAlarmAllOfQuery.md) |  | 
+**action** | [**BatchDeleteAction**](BatchDeleteAction.md) |  | 
+**query** | [**BatchDeleteQuery**](BatchDeleteQuery.md) |  | 
+
 
 ## Example
 
 ```python
 from waylay.services.alarms.models.batch_delete_alarm import BatchDeleteAlarm
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of BatchDeleteAlarm from a JSON string
-batch_delete_alarm_instance = BatchDeleteAlarm.from_json(json)
-# print the JSON string representation of the object
-print BatchDeleteAlarm.to_json()
+batch_delete_alarm = BatchDeleteAlarm(entity=..., action=..., query=...)
 
-# convert the object into a dict
-batch_delete_alarm_dict = batch_delete_alarm_instance.to_dict()
-# create an instance of BatchDeleteAlarm from a dict
-batch_delete_alarm_form_dict = batch_delete_alarm.from_dict(batch_delete_alarm_dict)
+# Create from JSON
+batch_delete_alarm = BatchDeleteAlarm.from_json(
+    '{ "entity": ..., "action": ..., "query": ... }'
+)
+
+# Export to dictionary
+batch_delete_alarm_dict = batch_delete_alarm.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

@@ -1,0 +1,22 @@
+"""Waylay Alarms models.
+
+This code was generated from the OpenAPI documentation of 'Waylay Alarms'
+
+Do not edit the class manually.
+
+"""
+
+from __future__ import annotations
+
+from enum import Enum
+
+
+class EventOccurredAgainEventType(str, Enum):
+    """An alarm happened again.."""
+
+    IO_DOT_WAYLAY_DOT_ALARM_DOT_EVENT_OCCURED_AGAIN = (
+        "io.waylay.alarm.EventOccuredAgain"
+    )
+
+    def __str__(self) -> str:
+        return str(self.value)

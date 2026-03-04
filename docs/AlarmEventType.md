@@ -1,28 +1,30 @@
 # AlarmEventType
 
 
-## Properties
+**Source:** `waylay.services.alarms.models.alarm_event_type`
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
+
+
+## Union Type (One Of)
+
+This type allows one of the following:
+
+Type | Description
+------------ | -------------
+[**AlarmRaisedEventType**](AlarmRaisedEventType.md) | -
+[**EventOccurredAgainEventType**](EventOccurredAgainEventType.md) | -
+[**AlarmUpdatedEventType**](AlarmUpdatedEventType.md) | -
 
 ## Example
 
 ```python
 from waylay.services.alarms.models.alarm_event_type import AlarmEventType
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of AlarmEventType from a JSON string
-alarm_event_type_instance = AlarmEventType.from_json(json)
-# print the JSON string representation of the object
-print AlarmEventType.to_json()
-
-# convert the object into a dict
-alarm_event_type_dict = alarm_event_type_instance.to_dict()
-# create an instance of AlarmEventType from a dict
-alarm_event_type_form_dict = alarm_event_type.from_dict(alarm_event_type_dict)
+# Use any of the accepted types (see table above)
+my_alarm_event_type: AlarmEventType = ...
 ```
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 
