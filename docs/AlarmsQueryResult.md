@@ -1,6 +1,11 @@
 # AlarmsQueryResult
 
 
+**Source:** `waylay.services.alarms.models.alarms_query_result`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -11,23 +16,27 @@ Name | Type | Description | Notes
 **next** | **str** | Link to the next page of results (if more results are available) | [optional] 
 **prev** | **str** | Link to the previous page of result (if previous page is available) | [optional] 
 
+
 ## Example
 
 ```python
 from waylay.services.alarms.models.alarms_query_result import AlarmsQueryResult
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of AlarmsQueryResult from a JSON string
-alarms_query_result_instance = AlarmsQueryResult.from_json(json)
-# print the JSON string representation of the object
-print AlarmsQueryResult.to_json()
+alarms_query_result = AlarmsQueryResult(
+    var_self=..., alarms=..., total=..., next=..., prev=...
+)
 
-# convert the object into a dict
-alarms_query_result_dict = alarms_query_result_instance.to_dict()
-# create an instance of AlarmsQueryResult from a dict
-alarms_query_result_form_dict = alarms_query_result.from_dict(alarms_query_result_dict)
+# Create from JSON
+alarms_query_result = AlarmsQueryResult.from_json(
+    '{ "self": ..., "alarms": ..., "total": ..., "next": ..., "prev": ... }'
+)
+
+# Export to dictionary
+alarms_query_result_dict = alarms_query_result.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

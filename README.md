@@ -27,8 +27,6 @@ Alternatively, you can install support for this _alarms_ service only, installin
 ## Usage
 
 ```python
-from pprint import pprint
-
 # Import the waylay-client from the waylay-sdk-core package
 from waylay.sdk.client import WaylayClient
 from waylay.sdk.api.api_exceptions import ApiError
@@ -38,49 +36,50 @@ waylay_client = WaylayClient.from_profile()
 
 # Note that the typed model classes for responses/parameters/... are only available when `waylay-sdk-alarms-types` is installed
 from waylay.services.alarms.models.version_response import VersionResponse
+
 try:
     # Get Service Information
     # calls `GET /alarms/v1`
-    api_response = await waylay_client.alarms.about.get(
-    )
-    print("The response of alarms.about.get:\n")
-    pprint(api_response)
+    api_response = await waylay_client.alarms.about.get()
+    print(f"Response: {api_response}")
 except ApiError as e:
     print("Exception when calling alarms.about.get: %s\n" % e)
 ```
 
 
-For more information, please visit the [Waylay API documentation](https://docs.waylay.io/#/api/?id=software-development-kits).
+For more information, please visit the [Waylay API documentation](https://docs.waylay.io/#/api/sdk/waylay-sdk/).
 
 ## Documentation for API Endpoints
 
 All URIs are relative to *https://api.waylay.io*
 
-Class | Method | HTTP request | Description
+SDK Path | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AboutApi* | [**get**](docs/AboutApi.md#get) | **GET** /alarms/v1 | Get Service Information
-*AlarmEventsApi* | [**get**](docs/AlarmEventsApi.md#get) | **GET** /alarms/v1/events | Alarm Events
-*AlarmsApi* | [**create**](docs/AlarmsApi.md#create) | **POST** /alarms/v1/alarms | Create Alarm
-*AlarmsApi* | [**delete**](docs/AlarmsApi.md#delete) | **DELETE** /alarms/v1/alarms/{alarmId} | Delete Alarm
-*AlarmsApi* | [**get**](docs/AlarmsApi.md#get) | **GET** /alarms/v1/alarms/{alarmId} | Get Alarm
-*AlarmsApi* | [**list**](docs/AlarmsApi.md#list) | **GET** /alarms/v1/alarms | Query Multiple Alarms
-*AlarmsApi* | [**update**](docs/AlarmsApi.md#update) | **PUT** /alarms/v1/alarms/{alarmId} | Update Alarm
-*AlarmsBatchOperationsApi* | [**get**](docs/AlarmsBatchOperationsApi.md#get) | **GET** /alarms/v1/batch/{batchId} | Get Alarms Batch Operation Status
-*AlarmsBatchOperationsApi* | [**start**](docs/AlarmsBatchOperationsApi.md#start) | **POST** /alarms/v1/batch | Start Alarms Batch Operation
+**waylay_client.alarms.about** | [**get**](docs/AboutApi.md#get) | **GET** /alarms/v1 | Get Service Information
+ | | |
+**waylay_client.alarms.alarm_events** | [**get**](docs/AlarmEventsApi.md#get) | **GET** /alarms/v1/events | Alarm Events
+ | | |
+**waylay_client.alarms.alarms** | [**create**](docs/AlarmsApi.md#create) | **POST** /alarms/v1/alarms | Create Alarm
+**waylay_client.alarms.alarms** | [**delete**](docs/AlarmsApi.md#delete) | **DELETE** /alarms/v1/alarms/{alarmId} | Delete Alarm
+**waylay_client.alarms.alarms** | [**get**](docs/AlarmsApi.md#get) | **GET** /alarms/v1/alarms/{alarmId} | Get Alarm
+**waylay_client.alarms.alarms** | [**list**](docs/AlarmsApi.md#list) | **GET** /alarms/v1/alarms | Query Multiple Alarms
+**waylay_client.alarms.alarms** | [**update**](docs/AlarmsApi.md#update) | **PUT** /alarms/v1/alarms/{alarmId} | Update Alarm
+ | | |
+**waylay_client.alarms.alarms_batch_operations** | [**get**](docs/AlarmsBatchOperationsApi.md#get) | **GET** /alarms/v1/batch/{batchId} | Get Alarms Batch Operation Status
+**waylay_client.alarms.alarms_batch_operations** | [**start**](docs/AlarmsBatchOperationsApi.md#start) | **POST** /alarms/v1/batch | Start Alarms Batch Operation
 
 
 ## Documentation For Models
 
+ - [AdditionalQueryParamValue](docs/AdditionalQueryParamValue.md)
  - [AlarmAuditRecord](docs/AlarmAuditRecord.md)
+ - [AlarmChangeRecord](docs/AlarmChangeRecord.md)
+ - [AlarmChangeType](docs/AlarmChangeType.md)
  - [AlarmEntity](docs/AlarmEntity.md)
  - [AlarmEvent](docs/AlarmEvent.md)
  - [AlarmEventAlarm](docs/AlarmEventAlarm.md)
- - [AlarmEventChangesInner](docs/AlarmEventChangesInner.md)
- - [AlarmEventChangesInnerType](docs/AlarmEventChangesInnerType.md)
  - [AlarmEventType](docs/AlarmEventType.md)
- - [AlarmEventTypeOneOf](docs/AlarmEventTypeOneOf.md)
- - [AlarmEventTypeOneOf1](docs/AlarmEventTypeOneOf1.md)
- - [AlarmEventTypeOneOf2](docs/AlarmEventTypeOneOf2.md)
+ - [AlarmRaisedEventType](docs/AlarmRaisedEventType.md)
  - [AlarmSeverity](docs/AlarmSeverity.md)
  - [AlarmSeverityFilter](docs/AlarmSeverityFilter.md)
  - [AlarmSourceFilter](docs/AlarmSourceFilter.md)
@@ -89,46 +88,47 @@ Class | Method | HTTP request | Description
  - [AlarmTimelineInfo](docs/AlarmTimelineInfo.md)
  - [AlarmTypeFilter](docs/AlarmTypeFilter.md)
  - [AlarmUpdate](docs/AlarmUpdate.md)
+ - [AlarmUpdatedEventType](docs/AlarmUpdatedEventType.md)
  - [AlarmsQueryResult](docs/AlarmsQueryResult.md)
  - [AlarmsTimelineItem](docs/AlarmsTimelineItem.md)
  - [BatchAlarm](docs/BatchAlarm.md)
  - [BatchAlarmEntity](docs/BatchAlarmEntity.md)
  - [BatchAlarmsSpecification](docs/BatchAlarmsSpecification.md)
+ - [BatchDeleteAction](docs/BatchDeleteAction.md)
  - [BatchDeleteAlarm](docs/BatchDeleteAlarm.md)
- - [BatchDeleteAlarmAllOfAction](docs/BatchDeleteAlarmAllOfAction.md)
- - [BatchDeleteAlarmAllOfQuery](docs/BatchDeleteAlarmAllOfQuery.md)
+ - [BatchDeleteQuery](docs/BatchDeleteQuery.md)
  - [BatchOperation](docs/BatchOperation.md)
  - [BatchOperationEnqueued](docs/BatchOperationEnqueued.md)
  - [BatchOperationEnqueuedEntity](docs/BatchOperationEnqueuedEntity.md)
- - [BatchOperationOperation](docs/BatchOperationOperation.md)
- - [BatchOperationOperationAction](docs/BatchOperationOperationAction.md)
  - [BatchOperationResult](docs/BatchOperationResult.md)
  - [BatchOperationResults](docs/BatchOperationResults.md)
+ - [BatchOperationSummary](docs/BatchOperationSummary.md)
+ - [BatchOperationSummaryAction](docs/BatchOperationSummaryAction.md)
+ - [BatchUpdateAction](docs/BatchUpdateAction.md)
  - [BatchUpdateAlarm](docs/BatchUpdateAlarm.md)
- - [BatchUpdateAlarmAllOfAction](docs/BatchUpdateAlarmAllOfAction.md)
  - [BulkQueryFilter](docs/BulkQueryFilter.md)
  - [BulkQueryIds](docs/BulkQueryIds.md)
  - [CloudAlarmEvent](docs/CloudAlarmEvent.md)
  - [CloudAlarmEventData](docs/CloudAlarmEventData.md)
- - [CloudAlarmEventDataType](docs/CloudAlarmEventDataType.md)
+ - [CloudAlarmEventType](docs/CloudAlarmEventType.md)
  - [CreateAlarm](docs/CreateAlarm.md)
+ - [DeprecatedSortOrder](docs/DeprecatedSortOrder.md)
  - [ErrorResponse](docs/ErrorResponse.md)
  - [ErrorResponseWithDetails](docs/ErrorResponseWithDetails.md)
+ - [EventOccurredAgainEventType](docs/EventOccurredAgainEventType.md)
+ - [EventStreamFormat](docs/EventStreamFormat.md)
  - [FailureOperationResultValue](docs/FailureOperationResultValue.md)
- - [GetEventstreamEventFormatParameter](docs/GetEventstreamEventFormatParameter.md)
+ - [GetBatchOperationResponse](docs/GetBatchOperationResponse.md)
+ - [ISO8601TimestampOrMillis](docs/ISO8601TimestampOrMillis.md)
  - [IdObject](docs/IdObject.md)
- - [ListAdditionalQueryParamsParameterValue](docs/ListAdditionalQueryParamsParameterValue.md)
- - [ListOrderParameter](docs/ListOrderParameter.md)
- - [ListOrderParameterAnyOf](docs/ListOrderParameterAnyOf.md)
- - [ListOrderParameterAnyOf1](docs/ListOrderParameterAnyOf1.md)
+ - [ListOrder](docs/ListOrder.md)
  - [ListSortParameter](docs/ListSortParameter.md)
  - [NdJsonResponseStream](docs/NdJsonResponseStream.md)
  - [OperationResultObject](docs/OperationResultObject.md)
- - [OperationResultObjectResults](docs/OperationResultObjectResults.md)
  - [QueuedOperationSummary](docs/QueuedOperationSummary.md)
  - [QueuedOperationSummaryAction](docs/QueuedOperationSummaryAction.md)
- - [SO8601TimestampOrMillis](docs/SO8601TimestampOrMillis.md)
  - [SSEventStream](docs/SSEventStream.md)
+ - [SortOrder](docs/SortOrder.md)
  - [SuccessOperationResultValue](docs/SuccessOperationResultValue.md)
  - [VersionResponse](docs/VersionResponse.md)
 

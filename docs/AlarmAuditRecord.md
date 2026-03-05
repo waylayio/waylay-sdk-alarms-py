@@ -1,6 +1,11 @@
 # AlarmAuditRecord
 
 
+**Source:** `waylay.services.alarms.models.alarm_audit_record`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,23 +15,25 @@ Name | Type | Description | Notes
 **text** | **str** | Text describing the change | 
 **timestamp** | **datetime** |  | 
 
+
 ## Example
 
 ```python
 from waylay.services.alarms.models.alarm_audit_record import AlarmAuditRecord
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of AlarmAuditRecord from a JSON string
-alarm_audit_record_instance = AlarmAuditRecord.from_json(json)
-# print the JSON string representation of the object
-print AlarmAuditRecord.to_json()
+alarm_audit_record = AlarmAuditRecord(id=..., type=..., text=..., timestamp=...)
 
-# convert the object into a dict
-alarm_audit_record_dict = alarm_audit_record_instance.to_dict()
-# create an instance of AlarmAuditRecord from a dict
-alarm_audit_record_form_dict = alarm_audit_record.from_dict(alarm_audit_record_dict)
+# Create from JSON
+alarm_audit_record = AlarmAuditRecord.from_json(
+    '{ "id": ..., "type": ..., "text": ..., "timestamp": ... }'
+)
+
+# Export to dictionary
+alarm_audit_record_dict = alarm_audit_record.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

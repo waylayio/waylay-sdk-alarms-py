@@ -2,29 +2,34 @@
 
 A JSON object with an id field indicating the resource.
 
+**Source:** `waylay.services.alarms.models.id_object`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **str** |  | 
 
+
 ## Example
 
 ```python
 from waylay.services.alarms.models.id_object import IdObject
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of IdObject from a JSON string
-id_object_instance = IdObject.from_json(json)
-# print the JSON string representation of the object
-print IdObject.to_json()
+id_object = IdObject(id=...)
 
-# convert the object into a dict
-id_object_dict = id_object_instance.to_dict()
-# create an instance of IdObject from a dict
-id_object_form_dict = id_object.from_dict(id_object_dict)
+# Create from JSON
+id_object = IdObject.from_json('{ "id": ... }')
+
+# Export to dictionary
+id_object_dict = id_object.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

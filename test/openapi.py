@@ -24,10 +24,27 @@ def with_example_provider(dct):
     return dct
 
 
-with open("openapi/alarms.transformed.openapi.yaml", "r") as file:
+with open("openapi/alarms.transformed.openapi.yaml") as file:
     OPENAPI_SPEC = yaml.safe_load(file)
 
 MODEL_DEFINITIONS = OPENAPI_SPEC["components"]["schemas"]
+
+_additional_query_param_value_model_schema = json.loads(
+    r"""{
+  "anyOf" : [ {
+    "type" : "number"
+  }, {
+    "type" : "string"
+  }, {
+    "type" : "boolean"
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "AdditionalQueryParamValue": _additional_query_param_value_model_schema
+})
 
 _alarm_audit_record_model_schema = json.loads(
     r"""{
@@ -52,7 +69,7 @@ _alarm_audit_record_model_schema = json.loads(
     "timestamp" : {
       "title" : "timestamp",
       "allOf" : [ {
-        "$ref" : "#/components/schemas/SO8601Timestamp"
+        "$ref" : "#/components/schemas/ISO8601Timestamp"
       }, {
         "description" : "timestamp when the change happened"
       } ]
@@ -64,6 +81,50 @@ _alarm_audit_record_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"AlarmAuditRecord": _alarm_audit_record_model_schema})
 
+_alarm_change_record_model_schema = json.loads(
+    r"""{
+  "title" : "AlarmChangeRecord",
+  "type" : "object",
+  "properties" : {
+    "attribute" : {
+      "title" : "attribute",
+      "type" : "string",
+      "example" : "severity"
+    },
+    "type" : {
+      "$ref" : "#/components/schemas/AlarmChangeType"
+    },
+    "oldValue" : {
+      "title" : "oldValue",
+      "type" : "string",
+      "nullable" : true,
+      "example" : "MAJOR"
+    },
+    "newValue" : {
+      "title" : "newValue",
+      "type" : "string",
+      "nullable" : true,
+      "example" : "CRITICAL"
+    }
+  }
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"AlarmChangeRecord": _alarm_change_record_model_schema})
+
+_alarm_change_type_model_schema = json.loads(
+    r"""{
+  "title" : "AlarmChangeType",
+  "type" : "string",
+  "description" : "Indication of what has changed",
+  "enum" : [ "io.waylay.alarm.change.severity", "io.waylay.alarm.change.status", "io.waylay.alarm.change.attribute" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"AlarmChangeType": _alarm_change_type_model_schema})
+
 _alarm_entity_model_schema = json.loads(
     r"""{
   "required" : [ "count", "creationTime", "id", "lastTriggeredTime", "lastUpdateTime", "severity", "source", "status", "text", "timestamp", "type" ],
@@ -73,13 +134,13 @@ _alarm_entity_model_schema = json.loads(
       "$ref" : "#/components/schemas/AlarmId"
     },
     "creationTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "lastUpdateTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "lastTriggeredTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "type" : {
       "$ref" : "#/components/schemas/AlarmType"
@@ -88,7 +149,7 @@ _alarm_entity_model_schema = json.loads(
       "$ref" : "#/components/schemas/AlarmText"
     },
     "timestamp" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "source" : {
       "$ref" : "#/components/schemas/IdObject"
@@ -143,7 +204,7 @@ _alarm_event_model_schema = json.loads(
       "$ref" : "#/components/schemas/AlarmEventType"
     },
     "eventtime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "alarm" : {
       "$ref" : "#/components/schemas/AlarmEventAlarm"
@@ -152,7 +213,7 @@ _alarm_event_model_schema = json.loads(
       "type" : "array",
       "description" : "Describes the changes that where done\n\nWill only be there if `eventtype` is `io.waylay.alarm.AlarmUpdated`",
       "items" : {
-        "$ref" : "#/components/schemas/AlarmEvent_changes_inner"
+        "$ref" : "#/components/schemas/AlarmChangeRecord"
       }
     }
   }
@@ -176,7 +237,7 @@ _alarm_event_alarm_model_schema = json.loads(
       "type" : "string"
     },
     "creationTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "type" : {
       "$ref" : "#/components/schemas/AlarmType"
@@ -185,7 +246,7 @@ _alarm_event_alarm_model_schema = json.loads(
       "$ref" : "#/components/schemas/AlarmText"
     },
     "timestamp" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "source" : {
       "$ref" : "#/components/schemas/IdObject"
@@ -209,64 +270,16 @@ _alarm_event_alarm_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"AlarmEventAlarm": _alarm_event_alarm_model_schema})
 
-_alarm_event_changes_inner_model_schema = json.loads(
-    r"""{
-  "title" : "AlarmEvent_changes_inner",
-  "type" : "object",
-  "properties" : {
-    "attribute" : {
-      "title" : "attribute",
-      "type" : "string",
-      "example" : "severity"
-    },
-    "type" : {
-      "$ref" : "#/components/schemas/AlarmEvent_changes_inner_type"
-    },
-    "oldValue" : {
-      "title" : "oldValue",
-      "type" : "string",
-      "nullable" : true,
-      "example" : "MAJOR"
-    },
-    "newValue" : {
-      "title" : "newValue",
-      "type" : "string",
-      "nullable" : true,
-      "example" : "CRITICAL"
-    }
-  }
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "AlarmEvent_changes_inner": _alarm_event_changes_inner_model_schema
-})
-
-_alarm_event_changes_inner_type_model_schema = json.loads(
-    r"""{
-  "title" : "AlarmEvent_changes_inner_type",
-  "type" : "string",
-  "description" : "Indication of what has changed",
-  "enum" : [ "io.waylay.alarm.change.severity", "io.waylay.alarm.change.status", "io.waylay.alarm.change.attribute" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "AlarmEvent_changes_inner_type": _alarm_event_changes_inner_type_model_schema
-})
-
 _alarm_event_type_model_schema = json.loads(
     r"""{
   "title" : "AlarmEventType",
   "type" : "string",
   "oneOf" : [ {
-    "$ref" : "#/components/schemas/AlarmEventType_oneOf"
+    "$ref" : "#/components/schemas/AlarmRaisedEventType"
   }, {
-    "$ref" : "#/components/schemas/AlarmEventType_oneOf_1"
+    "$ref" : "#/components/schemas/EventOccurredAgainEventType"
   }, {
-    "$ref" : "#/components/schemas/AlarmEventType_oneOf_2"
+    "$ref" : "#/components/schemas/AlarmUpdatedEventType"
   } ]
 }
 """,
@@ -274,9 +287,9 @@ _alarm_event_type_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"AlarmEventType": _alarm_event_type_model_schema})
 
-_alarm_event_type_one_of_model_schema = json.loads(
+_alarm_raised_event_type_model_schema = json.loads(
     r"""{
-  "title" : "AlarmEventType_oneOf",
+  "title" : "AlarmRaisedEventType",
   "type" : "string",
   "description" : "A new alarm was created.",
   "enum" : [ "io.waylay.alarm.AlarmRaised" ]
@@ -285,35 +298,7 @@ _alarm_event_type_one_of_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "AlarmEventType_oneOf": _alarm_event_type_one_of_model_schema
-})
-
-_alarm_event_type_one_of_1_model_schema = json.loads(
-    r"""{
-  "title" : "AlarmEventType_oneOf_1",
-  "type" : "string",
-  "description" : "An alarm happened again.",
-  "enum" : [ "io.waylay.alarm.EventOccuredAgain" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "AlarmEventType_oneOf_1": _alarm_event_type_one_of_1_model_schema
-})
-
-_alarm_event_type_one_of_2_model_schema = json.loads(
-    r"""{
-  "title" : "AlarmEventType_oneOf_2",
-  "type" : "string",
-  "description" : "An alarm was updated.",
-  "enum" : [ "io.waylay.alarm.AlarmUpdated" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "AlarmEventType_oneOf_2": _alarm_event_type_one_of_2_model_schema
+    "AlarmRaisedEventType": _alarm_raised_event_type_model_schema
 })
 
 _alarm_severity_model_schema = json.loads(
@@ -399,10 +384,10 @@ _alarm_timeline_info_model_schema = json.loads(
       "$ref" : "#/components/schemas/AlarmId"
     },
     "creationTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "timestamp" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "source" : {
       "$ref" : "#/components/schemas/IdObject"
@@ -471,6 +456,20 @@ _alarm_update_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"AlarmUpdate": _alarm_update_model_schema})
+
+_alarm_updated_event_type_model_schema = json.loads(
+    r"""{
+  "title" : "AlarmUpdatedEventType",
+  "type" : "string",
+  "description" : "An alarm was updated.",
+  "enum" : [ "io.waylay.alarm.AlarmUpdated" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "AlarmUpdatedEventType": _alarm_updated_event_type_model_schema
+})
 
 _alarms_query_result_model_schema = json.loads(
     r"""{
@@ -588,6 +587,17 @@ MODEL_DEFINITIONS.update({
     "BatchAlarmsSpecification": _batch_alarms_specification_model_schema
 })
 
+_batch_delete_action_model_schema = json.loads(
+    r"""{
+  "title" : "BatchDeleteAction",
+  "type" : "string",
+  "enum" : [ "delete" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"BatchDeleteAction": _batch_delete_action_model_schema})
+
 _batch_delete_alarm_model_schema = json.loads(
     r"""{
   "required" : [ "action", "entity", "query" ],
@@ -595,12 +605,13 @@ _batch_delete_alarm_model_schema = json.loads(
   "allOf" : [ {
     "$ref" : "#/components/schemas/BatchAlarm"
   }, {
+    "type" : "object",
     "properties" : {
       "action" : {
-        "$ref" : "#/components/schemas/BatchDeleteAlarm_allOf_action"
+        "$ref" : "#/components/schemas/BatchDeleteAction"
       },
       "query" : {
-        "$ref" : "#/components/schemas/BatchDeleteAlarm_allOf_query"
+        "$ref" : "#/components/schemas/BatchDeleteQuery"
       }
     }
   } ]
@@ -610,22 +621,9 @@ _batch_delete_alarm_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"BatchDeleteAlarm": _batch_delete_alarm_model_schema})
 
-_batch_delete_alarm_all_of_action_model_schema = json.loads(
+_batch_delete_query_model_schema = json.loads(
     r"""{
-  "title" : "BatchDeleteAlarm_allOf_action",
-  "type" : "string",
-  "enum" : [ "delete" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "BatchDeleteAlarm_allOf_action": _batch_delete_alarm_all_of_action_model_schema
-})
-
-_batch_delete_alarm_all_of_query_model_schema = json.loads(
-    r"""{
-  "title" : "BatchDeleteAlarm_allOf_query",
+  "title" : "BatchDeleteQuery",
   "oneOf" : [ {
     "$ref" : "#/components/schemas/BulkQueryIds"
   }, {
@@ -635,9 +633,7 @@ _batch_delete_alarm_all_of_query_model_schema = json.loads(
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update({
-    "BatchDeleteAlarm_allOf_query": _batch_delete_alarm_all_of_query_model_schema
-})
+MODEL_DEFINITIONS.update({"BatchDeleteQuery": _batch_delete_query_model_schema})
 
 _batch_operation_model_schema = json.loads(
     r"""{
@@ -653,10 +649,10 @@ _batch_operation_model_schema = json.loads(
       "example" : "user/22f6dfdf-a50c-4eab-953e-8d2e56891dbe"
     },
     "operation" : {
-      "$ref" : "#/components/schemas/BatchOperation_operation"
+      "$ref" : "#/components/schemas/BatchOperationSummary"
     },
     "queueTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     }
   }
 }
@@ -667,7 +663,6 @@ MODEL_DEFINITIONS.update({"BatchOperation": _batch_operation_model_schema})
 
 _batch_operation_enqueued_model_schema = json.loads(
     r"""{
-  "title" : "Batch operation enqueued",
   "required" : [ "entity", "statusCode", "uri" ],
   "type" : "object",
   "properties" : {
@@ -682,7 +677,7 @@ _batch_operation_enqueued_model_schema = json.loads(
       "example" : "/alarms/v1/batch/afcea5a1-81df-44f6-bd34-e0b602a2cf3d"
     },
     "entity" : {
-      "$ref" : "#/components/schemas/Batch_operation_enqueued_entity"
+      "$ref" : "#/components/schemas/BatchOperationEnqueuedEntity"
     }
   }
 }
@@ -690,7 +685,7 @@ _batch_operation_enqueued_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "Batch_operation_enqueued": _batch_operation_enqueued_model_schema
+    "BatchOperationEnqueued": _batch_operation_enqueued_model_schema
 })
 
 _batch_operation_enqueued_entity_model_schema = json.loads(
@@ -702,10 +697,10 @@ _batch_operation_enqueued_entity_model_schema = json.loads(
       "$ref" : "#/components/schemas/BatchId"
     },
     "queueTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "operation" : {
-      "$ref" : "#/components/schemas/Queued_operation_summary"
+      "$ref" : "#/components/schemas/QueuedOperationSummary"
     }
   }
 }
@@ -713,48 +708,7 @@ _batch_operation_enqueued_entity_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "Batch_operation_enqueued_entity": _batch_operation_enqueued_entity_model_schema
-})
-
-_batch_operation_operation_model_schema = json.loads(
-    r"""{
-  "title" : "BatchOperation_operation",
-  "required" : [ "action", "description", "entity" ],
-  "type" : "object",
-  "properties" : {
-    "entity" : {
-      "$ref" : "#/components/schemas/BatchAlarmEntity"
-    },
-    "action" : {
-      "$ref" : "#/components/schemas/BatchOperation_operation_action"
-    },
-    "description" : {
-      "title" : "description",
-      "type" : "string",
-      "description" : "Description of the operation",
-      "example" : "deleting 3 alarms"
-    }
-  },
-  "description" : "Summary of the batch operation"
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "BatchOperation_operation": _batch_operation_operation_model_schema
-})
-
-_batch_operation_operation_action_model_schema = json.loads(
-    r"""{
-  "title" : "BatchOperation_operation_action",
-  "type" : "string",
-  "enum" : [ "delete", "update" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "BatchOperation_operation_action": _batch_operation_operation_action_model_schema
+    "BatchOperationEnqueuedEntity": _batch_operation_enqueued_entity_model_schema
 })
 
 _batch_operation_result_model_schema = json.loads(
@@ -801,11 +755,16 @@ MODEL_DEFINITIONS.update({"BatchOperationResult": _batch_operation_result_model_
 _batch_operation_results_model_schema = json.loads(
     r"""{
   "title" : "BatchOperationResults",
-  "anyOf" : [ {
-    "$ref" : "#/components/schemas/BatchOperationResult"
-  }, {
-    "$ref" : "#/components/schemas/BatchOperation"
-  } ]
+  "required" : [ "failure", "success" ],
+  "type" : "object",
+  "properties" : {
+    "success" : {
+      "$ref" : "#/components/schemas/SuccessOperationResult"
+    },
+    "failure" : {
+      "$ref" : "#/components/schemas/FailureOperationResult"
+    }
+  }
 }
 """,
     object_hook=with_example_provider,
@@ -813,6 +772,58 @@ _batch_operation_results_model_schema = json.loads(
 MODEL_DEFINITIONS.update({
     "BatchOperationResults": _batch_operation_results_model_schema
 })
+
+_batch_operation_summary_model_schema = json.loads(
+    r"""{
+  "title" : "BatchOperationSummary",
+  "required" : [ "action", "description", "entity" ],
+  "type" : "object",
+  "properties" : {
+    "entity" : {
+      "$ref" : "#/components/schemas/BatchAlarmEntity"
+    },
+    "action" : {
+      "$ref" : "#/components/schemas/BatchOperationSummary_action"
+    },
+    "description" : {
+      "title" : "description",
+      "type" : "string",
+      "description" : "Description of the operation",
+      "example" : "deleting 3 alarms"
+    }
+  },
+  "description" : "Summary of the batch operation"
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchOperationSummary": _batch_operation_summary_model_schema
+})
+
+_batch_operation_summary_action_model_schema = json.loads(
+    r"""{
+  "title" : "BatchOperationSummary_action",
+  "type" : "string",
+  "enum" : [ "delete", "update" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "BatchOperationSummary_action": _batch_operation_summary_action_model_schema
+})
+
+_batch_update_action_model_schema = json.loads(
+    r"""{
+  "title" : "BatchUpdateAction",
+  "type" : "string",
+  "enum" : [ "update" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"BatchUpdateAction": _batch_update_action_model_schema})
 
 _batch_update_alarm_model_schema = json.loads(
     r"""{
@@ -826,7 +837,7 @@ _batch_update_alarm_model_schema = json.loads(
         "$ref" : "#/components/schemas/AlarmUpdate"
       },
       "action" : {
-        "$ref" : "#/components/schemas/BatchUpdateAlarm_allOf_action"
+        "$ref" : "#/components/schemas/BatchUpdateAction"
       },
       "query" : {
         "$ref" : "#/components/schemas/BulkQueryIds"
@@ -838,19 +849,6 @@ _batch_update_alarm_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"BatchUpdateAlarm": _batch_update_alarm_model_schema})
-
-_batch_update_alarm_all_of_action_model_schema = json.loads(
-    r"""{
-  "title" : "BatchUpdateAlarm_allOf_action",
-  "type" : "string",
-  "enum" : [ "update" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "BatchUpdateAlarm_allOf_action": _batch_update_alarm_all_of_action_model_schema
-})
 
 _bulk_query_filter_model_schema = json.loads(
     r"""{
@@ -991,13 +989,13 @@ _cloud_alarm_event_data_model_schema = json.loads(
       "example" : "289dd1a3-35a7-44fa-8596-9aee3ad0b36f/2c49e3bf-547b-42bc-a5e9-9193155ec03d"
     },
     "type" : {
-      "$ref" : "#/components/schemas/CloudAlarmEventData_type"
+      "$ref" : "#/components/schemas/CloudAlarmEventType"
     },
     "data" : {
       "$ref" : "#/components/schemas/AlarmEvent"
     },
     "time" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     }
   }
 }
@@ -1006,18 +1004,16 @@ _cloud_alarm_event_data_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"CloudAlarmEventData": _cloud_alarm_event_data_model_schema})
 
-_cloud_alarm_event_data_type_model_schema = json.loads(
+_cloud_alarm_event_type_model_schema = json.loads(
     r"""{
-  "title" : "CloudAlarmEventData_type",
+  "title" : "CloudAlarmEventType",
   "type" : "string",
   "enum" : [ "io.waylay.alarms.v1.AlarmRaised", "io.waylay.alarms.v1.EventOccurredAgain", "io.waylay.alarms.v1.AlarmUpdated" ]
 }
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update({
-    "CloudAlarmEventData_type": _cloud_alarm_event_data_type_model_schema
-})
+MODEL_DEFINITIONS.update({"CloudAlarmEventType": _cloud_alarm_event_type_model_schema})
 
 _create_alarm_model_schema = json.loads(
     r"""{
@@ -1040,7 +1036,7 @@ _create_alarm_model_schema = json.loads(
       "$ref" : "#/components/schemas/AlarmStatus"
     },
     "timestamp" : {
-      "$ref" : "#/components/schemas/SO8601TimestampOrMillis"
+      "$ref" : "#/components/schemas/ISO8601TimestampOrMillis"
     },
     "assignee" : {
       "$ref" : "#/components/schemas/AlarmAssignee"
@@ -1066,6 +1062,18 @@ _create_alarm_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({"CreateAlarm": _create_alarm_model_schema})
+
+_deprecated_sort_order_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "deprecated" : true,
+  "default" : "desc",
+  "enum" : [ "asc", "desc" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"DeprecatedSortOrder": _deprecated_sort_order_model_schema})
 
 _error_response_model_schema = json.loads(
     r"""{
@@ -1115,9 +1123,33 @@ MODEL_DEFINITIONS.update({
     "ErrorResponseWithDetails": _error_response_with_details_model_schema
 })
 
+_event_occurred_again_event_type_model_schema = json.loads(
+    r"""{
+  "title" : "EventOccurredAgainEventType",
+  "type" : "string",
+  "description" : "An alarm happened again.",
+  "enum" : [ "io.waylay.alarm.EventOccuredAgain" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "EventOccurredAgainEventType": _event_occurred_again_event_type_model_schema
+})
+
+_event_stream_format_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "enum" : [ "application/cloudevents+json" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"EventStreamFormat": _event_stream_format_model_schema})
+
 _failure_operation_result_value_model_schema = json.loads(
     r"""{
-  "title" : "FailureOperationResult_value",
+  "title" : "FailureOperationResultValue",
   "required" : [ "error", "statusCode" ],
   "type" : "object",
   "properties" : {
@@ -1138,19 +1170,39 @@ _failure_operation_result_value_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "FailureOperationResult_value": _failure_operation_result_value_model_schema
+    "FailureOperationResultValue": _failure_operation_result_value_model_schema
 })
 
-_get_eventstream_event_format_parameter_model_schema = json.loads(
+_get_batch_operation_response_model_schema = json.loads(
     r"""{
-  "type" : "string",
-  "enum" : [ "application/cloudevents+json" ]
+  "anyOf" : [ {
+    "$ref" : "#/components/schemas/BatchOperationResult"
+  }, {
+    "$ref" : "#/components/schemas/BatchOperation"
+  } ]
 }
 """,
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "get_eventstream_eventFormat_parameter": _get_eventstream_event_format_parameter_model_schema
+    "GetBatchOperationResponse": _get_batch_operation_response_model_schema
+})
+
+_iso8601_timestamp_or_millis_model_schema = json.loads(
+    r"""{
+  "title" : "ISO8601TimestampOrMillis",
+  "description" : "ISO8601 timestamp or unix epoch milliseconds.",
+  "oneOf" : [ {
+    "$ref" : "#/components/schemas/UnixEpochMillis"
+  }, {
+    "$ref" : "#/components/schemas/ISO8601Timestamp"
+  } ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({
+    "ISO8601TimestampOrMillis": _iso8601_timestamp_or_millis_model_schema
 })
 
 _id_object_model_schema = json.loads(
@@ -1174,62 +1226,18 @@ _id_object_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"IdObject": _id_object_model_schema})
 
-_list_additional_query_params_parameter_value_model_schema = json.loads(
+_list_order_model_schema = json.loads(
     r"""{
   "anyOf" : [ {
-    "type" : "number"
+    "$ref" : "#/components/schemas/SortOrder"
   }, {
-    "type" : "string"
-  }, {
-    "type" : "boolean"
+    "$ref" : "#/components/schemas/DeprecatedSortOrder"
   } ]
 }
 """,
     object_hook=with_example_provider,
 )
-MODEL_DEFINITIONS.update({
-    "list_additionalQueryParams_parameter_value": _list_additional_query_params_parameter_value_model_schema
-})
-
-_list_order_parameter_model_schema = json.loads(
-    r"""{
-  "anyOf" : [ {
-    "$ref" : "#/components/schemas/list_order_parameter_anyOf"
-  }, {
-    "$ref" : "#/components/schemas/list_order_parameter_anyOf_1"
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({"list_order_parameter": _list_order_parameter_model_schema})
-
-_list_order_parameter_any_of_model_schema = json.loads(
-    r"""{
-  "type" : "string",
-  "default" : "descending",
-  "enum" : [ "ascending", "descending" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "list_order_parameter_anyOf": _list_order_parameter_any_of_model_schema
-})
-
-_list_order_parameter_any_of_1_model_schema = json.loads(
-    r"""{
-  "type" : "string",
-  "deprecated" : true,
-  "default" : "desc",
-  "enum" : [ "asc", "desc" ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "list_order_parameter_anyOf_1": _list_order_parameter_any_of_1_model_schema
-})
+MODEL_DEFINITIONS.update({"ListOrder": _list_order_model_schema})
 
 _list_sort_parameter_model_schema = json.loads(
     r"""{
@@ -1269,10 +1277,10 @@ _operation_result_object_model_schema = json.loads(
   "type" : "object",
   "properties" : {
     "finishedTime" : {
-      "$ref" : "#/components/schemas/SO8601Timestamp"
+      "$ref" : "#/components/schemas/ISO8601Timestamp"
     },
     "results" : {
-      "$ref" : "#/components/schemas/OperationResultObject_results"
+      "$ref" : "#/components/schemas/BatchOperationResults"
     }
   },
   "description" : "Finished Batch Operation results"
@@ -1284,30 +1292,8 @@ MODEL_DEFINITIONS.update({
     "OperationResultObject": _operation_result_object_model_schema
 })
 
-_operation_result_object_results_model_schema = json.loads(
-    r"""{
-  "title" : "OperationResultObject_results",
-  "required" : [ "failure", "success" ],
-  "type" : "object",
-  "properties" : {
-    "success" : {
-      "$ref" : "#/components/schemas/SuccessOperationResult"
-    },
-    "failure" : {
-      "$ref" : "#/components/schemas/FailureOperationResult"
-    }
-  }
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "OperationResultObject_results": _operation_result_object_results_model_schema
-})
-
 _queued_operation_summary_model_schema = json.loads(
     r"""{
-  "title" : "Queued operation summary",
   "required" : [ "action", "entity" ],
   "type" : "object",
   "properties" : {
@@ -1315,7 +1301,7 @@ _queued_operation_summary_model_schema = json.loads(
       "$ref" : "#/components/schemas/BatchAlarmEntity"
     },
     "action" : {
-      "$ref" : "#/components/schemas/Queued_operation_summary_action"
+      "$ref" : "#/components/schemas/QueuedOperationSummary_action"
     }
   }
 }
@@ -1323,11 +1309,12 @@ _queued_operation_summary_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "Queued_operation_summary": _queued_operation_summary_model_schema
+    "QueuedOperationSummary": _queued_operation_summary_model_schema
 })
 
 _queued_operation_summary_action_model_schema = json.loads(
     r"""{
+  "title" : "QueuedOperationSummary_action",
   "type" : "string",
   "enum" : [ "update", "delete" ]
 }
@@ -1335,24 +1322,7 @@ _queued_operation_summary_action_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "Queued_operation_summary_action": _queued_operation_summary_action_model_schema
-})
-
-_so8601_timestamp_or_millis_model_schema = json.loads(
-    r"""{
-  "title" : "SO8601TimestampOrMillis",
-  "description" : "ISO8601 timestamp or unix epoch milliseconds.",
-  "oneOf" : [ {
-    "$ref" : "#/components/schemas/UnixEpochMillis"
-  }, {
-    "$ref" : "#/components/schemas/SO8601Timestamp"
-  } ]
-}
-""",
-    object_hook=with_example_provider,
-)
-MODEL_DEFINITIONS.update({
-    "SO8601TimestampOrMillis": _so8601_timestamp_or_millis_model_schema
+    "QueuedOperationSummary_action": _queued_operation_summary_action_model_schema
 })
 
 _ss_event_stream_model_schema = json.loads(
@@ -1369,9 +1339,20 @@ _ss_event_stream_model_schema = json.loads(
 )
 MODEL_DEFINITIONS.update({"SSEventStream": _ss_event_stream_model_schema})
 
+_sort_order_model_schema = json.loads(
+    r"""{
+  "type" : "string",
+  "default" : "descending",
+  "enum" : [ "ascending", "descending" ]
+}
+""",
+    object_hook=with_example_provider,
+)
+MODEL_DEFINITIONS.update({"SortOrder": _sort_order_model_schema})
+
 _success_operation_result_value_model_schema = json.loads(
     r"""{
-  "title" : "SuccessOperationResult_value",
+  "title" : "SuccessOperationResultValue",
   "required" : [ "statusCode" ],
   "type" : "object",
   "properties" : {
@@ -1387,7 +1368,7 @@ _success_operation_result_value_model_schema = json.loads(
     object_hook=with_example_provider,
 )
 MODEL_DEFINITIONS.update({
-    "SuccessOperationResult_value": _success_operation_result_value_model_schema
+    "SuccessOperationResultValue": _success_operation_result_value_model_schema
 })
 
 _version_response_model_schema = json.loads(

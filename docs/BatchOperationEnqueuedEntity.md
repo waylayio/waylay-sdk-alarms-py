@@ -1,6 +1,11 @@
 # BatchOperationEnqueuedEntity
 
 
+**Source:** `waylay.services.alarms.models.batch_operation_enqueued_entity`
+
+
+
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -9,23 +14,29 @@ Name | Type | Description | Notes
 **queue_time** | **datetime** |  | 
 **operation** | [**QueuedOperationSummary**](QueuedOperationSummary.md) |  | 
 
+
 ## Example
 
 ```python
-from waylay.services.alarms.models.batch_operation_enqueued_entity import BatchOperationEnqueuedEntity
+from waylay.services.alarms.models.batch_operation_enqueued_entity import (
+    BatchOperationEnqueuedEntity,
+)
 
-# TODO update the JSON string below
-json = "{}"
-# create an instance of BatchOperationEnqueuedEntity from a JSON string
-batch_operation_enqueued_entity_instance = BatchOperationEnqueuedEntity.from_json(json)
-# print the JSON string representation of the object
-print BatchOperationEnqueuedEntity.to_json()
+batch_operation_enqueued_entity = BatchOperationEnqueuedEntity(
+    id=..., queue_time=..., operation=...
+)
 
-# convert the object into a dict
-batch_operation_enqueued_entity_dict = batch_operation_enqueued_entity_instance.to_dict()
-# create an instance of BatchOperationEnqueuedEntity from a dict
-batch_operation_enqueued_entity_form_dict = batch_operation_enqueued_entity.from_dict(batch_operation_enqueued_entity_dict)
+# Create from JSON
+batch_operation_enqueued_entity = BatchOperationEnqueuedEntity.from_json(
+    '{ "id": ..., "queueTime": ..., "operation": ... }'
+)
+
+# Export to dictionary
+batch_operation_enqueued_entity_dict = batch_operation_enqueued_entity.to_dict()
 ```
+
+
+
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 
