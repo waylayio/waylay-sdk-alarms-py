@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "waylay-sdk-alarms"
-version = "1.13.1rc20260304"
+version = "1.13.1.20260305"
 description = "Waylay Alarms"
 authors = [
     { name = "Waylay", email = "info@waylay.io"}
